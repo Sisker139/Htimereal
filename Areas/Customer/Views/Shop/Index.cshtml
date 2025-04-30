@@ -9,38 +9,25 @@
 
         <div class="col-lg-3">
             <h1 class="h2 pb-4">Categories</h1>
-            <ul class="list-unstyled templatemo-accordion">
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Gender
-                        <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul class="collapse show list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="#">Men</a></li>
-                        <li><a class="text-decoration-none" href="#">Women</a></li>
+            @* <ul class="list-unstyled templatemo-accordion">
+                @{
+                    var categories = Model.Select(p => p.Category).Distinct().ToList();
+                }
+                <div class="col-lg-3">
+                    <h1 class="h2 pb-4">Categories</h1>
+                    <ul class="list-unstyled templatemo-accordion">
+                        @foreach (var category in categories)
+                        {
+                            <li class="pb-3">
+                                <a class="d-flex justify-content-between h3 text-decoration-none" asp-action="Index" asp-route-category="@category">
+                                    @category
+                                    <i class="fa fa-fw fa-chevron-circle-right mt-1"></i>
+                                </a>
+                            </li>
+                        }
                     </ul>
-                </li>
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Sale
-                        <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul id="collapseTwo" class="collapse list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="#">Sport</a></li>
-                        <li><a class="text-decoration-none" href="#">Luxury</a></li>
-                    </ul>
-                </li>
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Product
-                        <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul id="collapseThree" class="collapse list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="#">Bag</a></li>
-                        <li><a class="text-decoration-none" href="#">Sweather</a></li>
-                        <li><a class="text-decoration-none" href="#">Sunglass</a></li>
-                    </ul>
-                </li>
+                </div>
+ *@
             </ul>
         </div>
 
@@ -48,26 +35,9 @@
             <div class="row">
                 <div class="col-md-6">
                     <ul class="list-inline shop-top-menu pb-3 pt-1">
-                        <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none mr-3" href="#">Men's</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none" href="#">Women's</a>
-                        </li>
+                            <a class="h2 text-dark text-decoration-none mr-3" href="#">Products</a>
                     </ul>
-                </div>
-                <div class="col-md-6 pb-4">
-                    <div class="d-flex">
-                        <select class="form-control">
-                            <option>Featured</option>
-                            <option>A to Z</option>
-                            <option>Item</option>
-                        </select>
-                    </div>
-                </div>
+                </div>    
             </div>
             <!-- Item -->
             
@@ -77,22 +47,17 @@
                     <div class="col-md-4">
                         <div class="card mb-4 product-wap rounded-0">
                             <div class="card rounded-0">
-                                <img class="card-img rounded-0 img-fluid"
-                                     src="~/img/@item.ImageUrl"
-                                     alt="@item.Name"
-                                     style="width: 500px; height: 500px; object-fit: cover;" />
-
+                                <img class="card-img rounded-0 img-fluid"src="~/img/@item.ImageUrl" alt="@item.Name" style="width: 500px; height: 500px; object-fit: cover;" />
 
                                 <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                     <ul class="list-unstyled">
-                                        <li><a class="btn btn-success text-white" href="#"><i class="far fa-heart"></i></a></li>
-                                        <li><a class="btn btn-success text-white mt-2" href="#"><i class="far fa-eye"></i></a></li>
-                                        <li><a class="btn btn-success text-white mt-2" href="#"><i class="fas fa-cart-plus"></i></a></li>
+                                        <li><a class="btn btn-success text-white mt-2" asp-action="detail" asp-controller="Shop" asp-route-id="@item.Id"><i class="far fa-eye"></i></a></li>
+                                        <li><a class="btn btn-success text-white mt-2" asp-action="Addtocart" asp-controller="Cart"><i class="fas fa-cart-plus"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="card-body">
-                                <a href="#" class="h3 text-decoration-none">@item.Name</a>
+                                <a asp-action="detail" asp-controller="Shop" class="h3 border-0 text-decoration-none">@item.Name</a>
                                 <p class="text-center mb-0">$@item.Price</p>
                             </div>
                         </div>

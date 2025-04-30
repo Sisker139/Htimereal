@@ -18,9 +18,21 @@ namespace Htime.Areas.Customer.Controllers
         }
 
 
-        public IActionResult Detail()
+        public IActionResult Detail(int id)
         {
-            return View();
+            var product = db.Products.FirstOrDefault(p => p.Id == id && p.IsActive);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
         }
+
+
+
+
+
+
     }
+
 }
