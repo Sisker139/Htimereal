@@ -25,111 +25,76 @@
                 <div class="modal-body">
                     <div class="input-group mb-3">
                         <span class="input-group-text" for="name">Name</span>
-                        <input type="text" id="name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                        <input type="text" id="name" class="form-control">
                     </div>
 
                     <div class="input-group mb-3">
                         <label class="input-group-text" for="brand">Brand</label>
                         <select class="form-select" id="brand">
                             <option selected>Rolex</option>
-                            <option value="1">Audemars Piguet</option>
-                            <option value="2">Omega</option>
-                            <option value="3">Patek Philippe</option>
-                            <option value="4">Richard Mille</option>
+                            <option value="Audemars Piguet">Audemars Piguet</option>
+                            <option value="Omega">Omega</option>
+                            <option value="Patek Philippe">Patek Philippe</option>
+                            <option value="Richard Mille">Richard Mille</option>
                         </select>
                     </div>
 
-
                     <div class="input-group mb-3">
-                        <input type="text" id="price" class="form-control" aria-label="Dollar amount (with dot and two decimal places)">
+                        <input type="text" id="price" class="form-control">
                         <span class="input-group-text">$</span>
-                        <span class="input-group-text">0.00</span>
                     </div>
 
                     <div class="input-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-sm">Stock</span>
-                        <input type="number" id="stock" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                        <span class="input-group-text">Stock</span>
+                        <input type="number" id="stock" class="form-control">
                     </div>
 
                     <div class="form-floating mb-3">
-                        <textarea class="form-control" placeholder="Leave a comment here" id="description" style="height: 100px"></textarea>
-                        <label for="floatingTextarea2">Description</label>
+                        <textarea class="form-control" placeholder="Description" id="description" style="height: 100px"></textarea>
+                        <label for="description">Description</label>
                     </div>
 
                     <div class="input-group mb-3">
-                        <input type="file" class="form-control" id="inputGroupFile02">
-                        <label class="input-group-text" for="inputGroupFile02" id="image">Upload</label>
+                        <input type="file" class="form-control" id="image">
+                        <label class="input-group-text" for="image">Upload</label>
                     </div>
 
-                    <div class="btn-group mb-3" aria-label="Basic checkbox toggle button group">
+                    <div class="btn-group mb-3">
                         <input type="checkbox" class="btn-check" id="hidden" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="btncheck1">Hidde product</label>
+                        <label class="btn btn-outline-primary" for="hidden">Hide product</label>
                     </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Add</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="uploadAndAddProduct()">Add</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Brand</th>
-                <th scope="col">Price</th>
-                <th scope="col">Stock Quatity</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                <th>#</th>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Brand</th>
+                <th>Price</th>
+                <th>Stock Quantity</th>
+                <th>Description</th>
+                <th></th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>mdo</td>
-                <td>a</td>
-                <td><button type="button" class="btn btn-primary">Thêm sản phẩm</button></td>
-                <td><button type="button" class="btn btn-primary">Thêm sản phẩm</button></td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>fat</td>
-                <td>fat</td>
-                <td><button type="button" class="btn btn-primary">Thêm sản phẩm</button></td>
-                <td><button type="button" class="btn btn-primary">Thêm sản phẩm</button></td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>John</td>
-                <td>Doe</td>
-                <td>ocial</td>
-                <td>fat</td>
-                <td>
-                    <button type="button" class="btn btn-primary">Thêm sản phẩm</button>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-primary">Thêm sản phẩm</button>
-                </td>
-            </tr>
-        </tbody>
+        <tbody id="productTableBody"></tbody>
     </table>
 
-    <!-- Bootstrap JS (bundle includes Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         async function uploadAndAddProduct() {
             const fileInput = document.getElementById('image');
             let imageUrl = '';
 
-            // Nếu có file ảnh, upload ảnh trước
             if (fileInput.files.length > 0) {
                 const formData = new FormData();
                 formData.append("image", fileInput.files[0]);
@@ -148,18 +113,16 @@
                 }
             }
 
-            // Thu thập dữ liệu sản phẩm
             const product = {
                 Name: document.getElementById('name').value,
                 Brand: document.getElementById('brand').value,
                 Price: parseFloat(document.getElementById('price').value),
-                StockQuatity: parseInt(document.getElementById('stock').value),
+                StockQuantity: parseInt(document.getElementById('stock').value),
                 Description: document.getElementById('description').value,
                 IsActive: document.getElementById('hidden').checked,
                 ImageUrl: imageUrl
             };
 
-            // Gửi dữ liệu sản phẩm lên server
             const response = await fetch('/Admin/QuanlySP/AddProduct', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -175,40 +138,49 @@
             }
         }
 
-        // Thêm sản phẩm mới vào danh sách mà không tải lại trang
         function updateProductList(product) {
-            const productList = document.getElementById('productList');
-            const newProduct = document.createElement('div');
-            newProduct.innerHTML = `<strong>${product.Name}</strong> - ${product.Brand} <br>
-                                                Giá: ${product.Price} VNĐ<br>
-                                                Số lượng: ${product.Stock}<br>
-                                                Mô tả: ${product.Description}<br>
-                                                <img src="${product.ImageUrl}" width="100">`;
-            productList.appendChild(newProduct);
+            const tableBody = document.getElementById('productTableBody');
+            const row = tableBody.insertRow();
+            row.innerHTML = `
+                        <th scope="row">${tableBody.rows.length}</th>
+                        <td><img src="${product.ImageUrl}" width="80" /></td>
+                        <td>${product.Name}</td>
+                        <td>${product.Brand}</td>
+                        <td>${product.Price.toLocaleString()} VNĐ</td>
+                        <td>${product.StockQuantity}</td>
+                        <td>${product.Description}</td>
+                        <td>
+                            <button class="btn btn-sm btn-warning" onclick="editProduct(${tableBody.rows.length - 1})">Edit</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteProduct(${tableBody.rows.length - 1})">Hide</button>
+                        </td>
+                    `;
         }
 
         async function loadData() {
-            const response = await fetch('/Admin/QuanlyDH/GetProducts');
+            const response = await fetch('/Admin/QuanlySP/GetProducts');
             const products = await response.json();
 
-            const productList = document.getElementById('productList');
-            productList.innerHTML = '<h2>Danh sách sản phẩm</h2>'; // Xóa danh sách cũ trước khi load mới
+            const tableBody = document.getElementById('productTableBody');
+            tableBody.innerHTML = ''; // Xóa dữ liệu cũ
 
-            products.forEach(product => {
-                const productItem = document.createElement('div');
-                productItem.classList.add('product-item');
-                productItem.innerHTML = `
-                                <strong>${product.name}</strong> - ${product.brand} <br>
-                                Giá: ${product.price} VNĐ<br>
-                                Số lượng: ${product.stock}<br>
-                                Mô tả: ${product.description}<br>
-                                <img src="${product.imageUrl}" width="100">
-                            `;
-                productList.appendChild(productItem);
+            products.forEach((product, index) => {
+                const row = tableBody.insertRow();
+                row.innerHTML = `
+                            <th scope="row">${index + 1}</th>
+                            <td><img src="${product.imageUrl}" width="80" /></td>
+                            <td>${product.name}</td>
+                            <td>${product.brand}</td>
+                            <td>${product.price.toLocaleString()} VNĐ</td>
+                            <td>${product.stockQuantity}</td>
+                            <td>${product.description}</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning" onclick="editProduct(${tableBody.rows.length - 1})">Edit</button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteProduct(${tableBody.rows.length - 1})">Hide</button>
+                            </td>
+                        `;
             });
         }
 
-        // Load dữ liệu khi trang được tải
         document.addEventListener("DOMContentLoaded", loadData);
     </script>
 
