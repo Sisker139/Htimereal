@@ -8,5 +8,10 @@ namespace Htime.Areas.Customer.Controllers
         {
             return View();
         }
+
+        public IActionResult Detail()
+        {
+            return View();
+        }
     }
 }
