@@ -1,4 +1,6 @@
-﻿@model List<Htime.Models.Product>
+﻿@model X.PagedList.IPagedList<Htime.Models.Product>
+@using X.PagedList.Mvc.Core
+
 
 @{
     ViewData["Title"] = "Index";
@@ -7,35 +9,40 @@
 <div class="container py-5">
     <div class="row">
 
+        <!-- Start Brands -->
         <div class="col-lg-3">
-            <h1 class="h2 pb-4">Categories</h1>
-            @* <ul class="list-unstyled templatemo-accordion">
-                @{
-                    var categories = Model.Select(p => p.Category).Distinct().ToList();
-                }
-                <div class="col-lg-3">
-                    <h1 class="h2 pb-4">Categories</h1>
-                    <ul class="list-unstyled templatemo-accordion">
-                        @foreach (var category in categories)
+            <ul class="list-unstyled templatemo-accordion">
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h2 text-decoration-none" href="#">
+                        Brands
+                        <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
+                    </a>
+                    <ul class="collapse show list-unstyled pl-3">
+                       
+                        @foreach (var brand in ViewBag.BrandCounts)
                         {
-                            <li class="pb-3">
-                                <a class="d-flex justify-content-between h3 text-decoration-none" asp-action="Index" asp-route-category="@category">
-                                    @category
-                                    <i class="fa fa-fw fa-chevron-circle-right mt-1"></i>
+                            <li class="text-decoration-none">
+                                <a asp-action="Index" asp-controller="Shop" asp-route-brand="@brand.Brand" class="text-decoration-none">
+                                    @brand.Brand
                                 </a>
+                                <span class="badge bg-primary rounded-pill">@brand.Count</span>
                             </li>
                         }
+                        <li class="text-decoration-none">
+                            <a asp-action="Index" asp-controller="Shop" class="text-decoration-none">
+                                 All
+                            </a>    
+                        </li>
                     </ul>
-                </div>
- *@
+                </li>
             </ul>
         </div>
-
+        <!-- End Brands -->
         <div class="col-lg-9">
             <div class="row">
                 <div class="col-md-6">
                     <ul class="list-inline shop-top-menu pb-3 pt-1">
-                            <a class="h2 text-dark text-decoration-none mr-3" href="#">Products</a>
+                            <a class="h2 text-dark text-decoration-none mr-3" asp-action="index" asp-controller="shop">Products</a>
                     </ul>
                 </div>    
             </div>
@@ -72,19 +79,23 @@
             </div>
             
             <!-- End Item -->
-            <div div="row">
-                <ul class="pagination pagination-lg justify-content-end">
-                    <li class="page-item disabled">
-                        <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="#" tabindex="-1">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark" href="#">3</a>
-                    </li>
-                </ul>
+        <div class="row">
+            <div class="col-12 d-flex justify-content-end">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, brand = ViewBag.SelectedBrand }),
+                         new PagedListRenderOptions
+                {
+                    LiElementClasses = new[] { "page-item" },
+                    PageClasses = new[] { "page-link" },
+                    UlElementClasses = new[] { "pagination", "pagination-lg", "justify-content-end" },
+                    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                    DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                    DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                    DisplayLinkToIndividualPages = true
+                })
             </div>
+        </div>
+
         </div>
 
     </div>

@@ -41,10 +41,11 @@
                                         <li class="list-inline-item text-right">
                                             Số lượng:
                                         </li>
-                                        <li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
-                                        <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">1</span></li>
-                                        <li class="list-inline-item"><span class="btn btn-success" id="btn-plus">+</span></li>
-                                        <input type="hidden" id="product-quanity" name="quantity" value="1" />
+                                        <div style="display: inline-flex; align-items: center; gap: 5px;">
+                                            <button type="button" class="btn btn-sm btn-secondary" onclick="decreaseQty(this)">−</button>
+                                            <input type="text" value="1" name="quantity" class="form-control" style="width: 50px; text-align: center;" />
+                                            <button type="button" class="btn btn-sm btn-secondary" onclick="increaseQty(this)">+</button>
+                                        </div>
                                     </ul>
                                 </div>
                             </div>
@@ -55,22 +56,19 @@
                             </div>
                         </form>
 
+                        
                         <script>
-                            document.getElementById("btn-minus").addEventListener("click", function () {
-                                var value = parseInt(document.getElementById("product-quanity").value);
-                                if (value > 1) {
-                                    value--;
-                                    document.getElementById("product-quanity").value = value;
-                                    document.getElementById("var-value").textContent = value;
-                                }
-                            });
+                            function increaseQty(btn) {
+                                let input = btn.previousElementSibling;
+                                let value = parseInt(input.value) || 0;
+                                input.value = value + 1;
+                            }
 
-                            document.getElementById("btn-plus").addEventListener("click", function () {
-                                var value = parseInt(document.getElementById("product-quanity").value);
-                                value++;
-                                document.getElementById("product-quanity").value = value;
-                                document.getElementById("var-value").textContent = value;
-                            });
+                            function decreaseQty(btn) {
+                                let input = btn.nextElementSibling;
+                                let value = parseInt(input.value) || 0;
+                                if (value > 1) input.value = value - 1;
+                            }
                         </script>
                     </div>
                 </div>
