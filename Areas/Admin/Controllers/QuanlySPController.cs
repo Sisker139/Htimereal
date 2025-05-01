@@ -27,9 +27,47 @@ namespace Htime.Areas.Admin.Controllers
             {
                 _context.Products.Add(product);
                 await _context.SaveChangesAsync();
-                return Json(new { success = true, message = "Thêm sản phẩm thành công!" });
+                Console.WriteLine("Product ID sau khi lưu: " + product.Id);
+                return Json(new { success = true, product = product }); 
             }
             return Json(new { success = false, message = "Có lỗi xảy ra!" });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateProduct([FromBody] Product product)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { success = false, message = "Dữ liệu không hợp lệ." });
+            }
+
+            var existingProduct = await _context.Products.FindAsync(product.Id);
+            if (existingProduct == null)
+            {
+                return NotFound(new { success = false, message = "Không tìm thấy sản phẩm." });
+            }
+
+            // Cập nhật thông tin sản phẩm
+            existingProduct.Name = product.Name;
+            existingProduct.Brand = product.Brand;
+            existingProduct.Price = product.Price;
+            existingProduct.StockQuantity = product.StockQuantity;
+            existingProduct.Description = product.Description;
+            existingProduct.IsActive = product.IsActive;
+
+            if (!string.IsNullOrEmpty(product.ImageUrl))
+            {
+                var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", existingProduct.ImageUrl);
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
+                existingProduct.ImageUrl = product.ImageUrl;
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new { success = true, message = "Cập nhật thành công." });
         }
 
 
@@ -58,6 +96,30 @@ namespace Htime.Areas.Admin.Controllers
             }
             return Json(new { success = false, message = "Không thể tải ảnh!" });
         }
+
+
+        [HttpPost]
+        public JsonResult UpdateStatus([FromBody] Product model)
+        {
+            try
+            {
+                var product = _context.Products.FirstOrDefault(p => p.Id == model.Id);
+                if (product == null)
+                    return Json(new { success = false, message = "Không tìm thấy sản phẩm" });
+
+                product.IsActive = model.IsActive;
+                _context.SaveChanges();
+
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+
+
 
         [HttpGet]
         public IActionResult GetProducts()

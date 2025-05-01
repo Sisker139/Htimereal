@@ -1,4 +1,6 @@
-﻿@model List<Htime.Models.Product>
+﻿@model X.PagedList.IPagedList<Htime.Models.Product>
+@using X.PagedList.Mvc.Core
+
 
 @{
     ViewData["Title"] = "Index";
@@ -7,67 +9,42 @@
 <div class="container py-5">
     <div class="row">
 
+        <!-- Start Brands -->
         <div class="col-lg-3">
-            <h1 class="h2 pb-4">Categories</h1>
             <ul class="list-unstyled templatemo-accordion">
                 <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Gender
+                    <a class="collapsed d-flex justify-content-between h2 text-decoration-none" href="#">
+                        Brands
                         <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
                     </a>
                     <ul class="collapse show list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="#">Men</a></li>
-                        <li><a class="text-decoration-none" href="#">Women</a></li>
-                    </ul>
-                </li>
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Sale
-                        <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul id="collapseTwo" class="collapse list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="#">Sport</a></li>
-                        <li><a class="text-decoration-none" href="#">Luxury</a></li>
-                    </ul>
-                </li>
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Product
-                        <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul id="collapseThree" class="collapse list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="#">Bag</a></li>
-                        <li><a class="text-decoration-none" href="#">Sweather</a></li>
-                        <li><a class="text-decoration-none" href="#">Sunglass</a></li>
+                       
+                        @foreach (var brand in ViewBag.BrandCounts)
+                        {
+                            <li class="text-decoration-none">
+                                <a asp-action="Index" asp-controller="Shop" asp-route-brand="@brand.Brand" class="text-decoration-none">
+                                    @brand.Brand
+                                </a>
+                                <span class="badge bg-primary rounded-pill">@brand.Count</span>
+                            </li>
+                        }
+                        <li class="text-decoration-none">
+                            <a asp-action="Index" asp-controller="Shop" class="text-decoration-none">
+                                 All
+                            </a>    
+                        </li>
                     </ul>
                 </li>
             </ul>
         </div>
-
+        <!-- End Brands -->
         <div class="col-lg-9">
             <div class="row">
                 <div class="col-md-6">
                     <ul class="list-inline shop-top-menu pb-3 pt-1">
-                        <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none mr-3" href="#">Men's</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a class="h3 text-dark text-decoration-none" href="#">Women's</a>
-                        </li>
+                            <a class="h2 text-dark text-decoration-none mr-3" asp-action="index" asp-controller="shop">Products</a>
                     </ul>
-                </div>
-                <div class="col-md-6 pb-4">
-                    <div class="d-flex">
-                        <select class="form-control">
-                            <option>Featured</option>
-                            <option>A to Z</option>
-                            <option>Item</option>
-                        </select>
-                    </div>
-                </div>
+                </div>    
             </div>
             <!-- Item -->
             
@@ -77,23 +54,21 @@
                     <div class="col-md-4">
                         <div class="card mb-4 product-wap rounded-0">
                             <div class="card rounded-0">
-                                <img class="card-img rounded-0 img-fluid"
-                                     src="~/img/@item.ImageUrl"
-                                     alt="@item.Name"
-                                     style="width: 500px; height: 500px; object-fit: cover;" />
-
+                                <a asp-action="detail" asp-controller="Shop" asp-route-id="@item.Id"><img class="card-img rounded-0 img-fluid"src="~/img/@item.ImageUrl" alt="@item.Name" style="width: 500px; height: 500px; object-fit: cover;" /></a>
 
                                 <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                     <ul class="list-unstyled">
-                                        <li><a class="btn btn-success text-white" href="#"><i class="far fa-heart"></i></a></li>
-                                        <li><a class="btn btn-success text-white mt-2" href="#"><i class="far fa-eye"></i></a></li>
-                                        <li><a class="btn btn-success text-white mt-2" href="#"><i class="fas fa-cart-plus"></i></a></li>
+                                        <li><a class="btn btn-success text-white mt-2" asp-action="detail" asp-controller="Shop" asp-route-id="@item.Id"><i class="far fa-eye"></i></a></li>
+                                        <li><a class="btn btn-success text-white mt-2" asp-action="Addtocart" asp-controller="Cart"><i class="fas fa-cart-plus"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <a href="#" class="h3 text-decoration-none">@item.Name</a>
-                                <p class="text-center mb-0">$@item.Price</p>
+                            <div class="card-body" style="height: 100px; overflow: hidden;">
+                                <a asp-action="detail" asp-controller="Shop" asp-route-id="@item.Id"  class="h3 border-0 text-decoration-none">@item.Name</a>
+                                <p class="mb-0" style="color: red; text-align: left;">$@item.Price</p>
+
+
+                                
                             </div>
                         </div>
                     </div>
@@ -104,19 +79,23 @@
             </div>
             
             <!-- End Item -->
-            <div div="row">
-                <ul class="pagination pagination-lg justify-content-end">
-                    <li class="page-item disabled">
-                        <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="#" tabindex="-1">1</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="#">2</a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link rounded-0 shadow-sm border-top-0 border-left-0 text-dark" href="#">3</a>
-                    </li>
-                </ul>
+        <div class="row">
+            <div class="col-12 d-flex justify-content-end">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, brand = ViewBag.SelectedBrand }),
+                         new PagedListRenderOptions
+                {
+                    LiElementClasses = new[] { "page-item" },
+                    PageClasses = new[] { "page-link" },
+                    UlElementClasses = new[] { "pagination", "pagination-lg", "justify-content-end" },
+                    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+                    DisplayLinkToLastPage = PagedListDisplayMode.Always,
+                    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                    DisplayLinkToNextPage = PagedListDisplayMode.Always,
+                    DisplayLinkToIndividualPages = true
+                })
             </div>
+        </div>
+
         </div>
 
     </div>
@@ -127,57 +106,39 @@
     <div class="container my-4">
         <div class="row text-center py-3">
             <div class="col-lg-6 m-auto">
-                <h1 class="h1">Our Brands</h1>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                    Lorem ipsum dolor sit amet.
-                </p>
+                <h1 class="h1">Featured Brands</h1>
+                
             </div>
             <div class="col-lg-9 m-auto tempaltemo-carousel">
                 <div class="row d-flex flex-row">
-                    <!--Controls-->
-                    <div class="col-1 align-self-center">
-                        <a class="h1" href="#multi-item-example" role="button" data-bs-slide="prev">
-                            <i class="text-light fas fa-chevron-left"></i>
-                        </a>
-                    </div>
-                    <!--End Controls-->
                     <!--Carousel Wrapper-->
                     <div class="col">
                         <div class="carousel slide carousel-multi-item pt-2 pt-md-0" id="multi-item-example" data-bs-ride="carousel">
                             <!--Slides-->
-                            <div class="carousel-inner product-links-wap" role="listbox">
-
-                                <!--First slide-->
+                            <div class="carousel-inner product-links-wap" role="listbox"> 
                                 <div class="carousel-item active">
                                     <div class="row">
                                         <div class="col-3 p-md-5">
-                                            <a href="#"><img class="img-fluid brand-img" src="~/assets/img/brand_01.png" alt="Brand Logo"></a>
+                                            <a href="#"><img class="img-fluid brand-img" src="~/img/logoap.png" alt="Brand Logo"></a>
                                         </div>
                                         <div class="col-3 p-md-5">
-                                            <a href="#"><img class="img-fluid brand-img" src="~/assets/img/brand_02.png" alt="Brand Logo"></a>
+                                            <a href="#"><img class="img-fluid brand-img" src="~/img/logoomega.png" alt="Brand Logo"></a>
                                         </div>
                                         <div class="col-3 p-md-5">
-                                            <a href="#"><img class="img-fluid brand-img" src="~/assets/img/brand_03.png" alt="Brand Logo"></a>
+                                            <a href="#"><img class="img-fluid brand-img" src="~/img/logopatek.png" alt="Brand Logo"></a>
                                         </div>
                                         <div class="col-3 p-md-5">
-                                            <a href="#"><img class="img-fluid brand-img" src="~/assets/img/brand_04.png" alt="Brand Logo"></a>
+                                            <a href="#"><img class="img-fluid brand-img" src="~/img/Logorolex.png" alt="Brand Logo"></a>
                                         </div>
                                     </div>
                                 </div>
-                                <!--End First slide-->
+                               
                             </div>
                             <!--End Slides-->
                         </div>
                     </div>
                     <!--End Carousel Wrapper-->
-                    <!--Controls-->
-                    <div class="col-1 align-self-center">
-                        <a class="h1" href="#multi-item-example" role="button" data-bs-slide="next">
-                            <i class="text-light fas fa-chevron-right"></i>
-                        </a>
-                    </div>
-                    <!--End Controls-->
+                   
                 </div>
             </div>
         </div>

@@ -30,5 +30,7 @@ namespace Htime.Models
 
         public bool IsActive { get; set; } = true;
 
+
+
     }
 }

@@ -59,22 +59,18 @@
                         <label class="input-group-text" for="image">Upload</label>
                     </div>
 
-                    <div class="btn-group mb-3">
-                        <input type="checkbox" class="btn-check" id="hidden" autocomplete="off">
-                        <label class="btn btn-outline-primary" for="hidden">Hide product</label>
-                    </div>
-
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onclick="uploadAndAddProduct()">Add</button>
+                        <button type="button" class="btn btn-primary" id="addBtn" onclick="uploadAndAddProduct()">Add</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <table class="table">
-        <thead>
+    <div class="container" style="max-height:700px; overflow:auto">
+    <table class="table table-hover">
+        <thead class="table-light sticky-top">
             <tr>
                 <th>#</th>
                 <th>Image</th>
@@ -88,12 +84,13 @@
         </thead>
         <tbody id="productTableBody"></tbody>
     </table>
-
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         async function uploadAndAddProduct() {
             const fileInput = document.getElementById('image');
-            let imageUrl = '';
+            let imageUrl = document.getElementById('image').getAttribute('data-current-url') || '';
+
 
             if (fileInput.files.length > 0) {
                 const formData = new FormData();
@@ -119,9 +116,27 @@
                 Price: parseFloat(document.getElementById('price').value),
                 StockQuantity: parseInt(document.getElementById('stock').value),
                 Description: document.getElementById('description').value,
-                IsActive: document.getElementById('hidden').checked,
+                IsActive: true,
                 ImageUrl: imageUrl
             };
+
+            const table = document.getElementById('productTableBody');
+            const editRowIndex = document.getElementById('addProductModal').getAttribute('data-edit-row-index');
+
+            if (editRowIndex) {
+                const row = table.rows[editRowIndex - 1]; // Trừ 1 vì header
+                row.cells[1].textContent = product.Name;
+                row.cells[2].textContent = product.Brand;
+                row.cells[3].textContent = product.Price;
+                row.cells[4].textContent = product.StockQuantity;
+                row.cells[5].innerHTML = `<img src="${product.ImageUrl}" width="80" />`;
+                row.cells[6].textContent = product.Description;
+
+                document.getElementById('addProductModal').removeAttribute('data-edit-row-index');
+            } else {
+                updateProductList(product);
+            }
+
 
             const response = await fetch('/Admin/QuanlySP/AddProduct', {
                 method: 'POST',
@@ -132,54 +147,201 @@
             const result = await response.json();
             if (result.success) {
                 alert('Thêm sản phẩm thành công!');
+                product.Id = result.product.Id; // Lấy lại Id từ server
+                const modalElement = document.getElementById('addProductModal');
+                bootstrap.Modal.getOrCreateInstance(modalElement).hide();
                 updateProductList(product);
             } else {
                 alert('Có lỗi xảy ra!');
             }
+
         }
 
+        // 1) Hàm dành cho lưu edit
+        async function updateProduct() {
+            const modalEl = document.getElementById('addProductModal');
+            const rowIndex = parseInt(modalEl.getAttribute('data-edit-row-index'), 10);
+            const table = document.getElementById('productTableBody');
+            const row = table.rows[rowIndex - 1];
+
+            const fileInput = document.getElementById('image');
+            let imageUrl = document.getElementById('image').getAttribute('data-current-url') || '';
+
+            //Neu nguoi dung chon anh moi
+            if (fileInput.files.length > 0)
+            {
+                const formData = new FormData();
+                formData.append("image", fileInput.files[0]);
+
+                const uploadResponse = await fetch('/Admin/QuanlySP/UploadImage', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const uploadResult = await uploadResponse.json();
+                if (uploadResult.success) {
+                    imageUrl = uploadResult.imageUrl;
+                }
+                else {
+                    alart('Lỗi khi tải ảnh');
+                    return;
+                }
+            }
+
+            const product = {
+                Id: parseInt(row.dataset.id, 10),
+                Name: document.getElementById('name').value,
+                Brand: document.getElementById('brand').value,
+                Price: parseFloat(document.getElementById('price').value),
+                StockQuantity: parseInt(document.getElementById('stock').value, 10),
+                Description: document.getElementById('description').value,
+                IsActive: row.dataset.isActive === 'true',
+                ImageUrl: imageUrl
+            };
+
+            const res = await fetch('/Admin/QuanlySP/UpdateProduct', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(product)
+            });
+
+            const result = await res.json();
+            if (result.success) {
+                row.cells[1].innerHTML = `<img src="/img/${product.ImageUrl}" width = "80">`;
+                row.cells[2].textContent = product.Name;
+                row.cells[3].textContent = product.Brand;
+                row.cells[4].textContent = product.Price.toLocaleString();
+                row.cells[5].textContent = product.StockQuantity;
+                row.cells[6].textContent = product.Description;
+
+                bootstrap.Modal.getOrCreateInstance(modalEl).hide();
+            }
+            else {
+                alert("Lỗi khi lưu sản phẩm");
+            }
+        }
+
+        function editProduct(button) {
+            const row = button.closest('tr');
+            const addBtn = document.getElementById('addBtn');
+            document.getElementById('ModalLabel').textContent = 'Edit product';
+            addBtn.textContent = 'Save';
+
+            // cells: 0 - #, 1 - image, 2 - name, 3 - brand, 4 - price, 5 - stock, 6 - desc
+            const imgSrc = row.cells[1].querySelector('img').getAttribute('src').replace('/img/', '');
+            document.getElementById('image').setAttribute('data-current-url', imgSrc);
+
+            document.getElementById('name').value = row.cells[2].textContent;
+            document.getElementById('brand').value = row.cells[3].textContent;
+            document.getElementById('price').value = row.cells[4].textContent;
+            document.getElementById('stock').value = row.cells[5].textContent;
+            document.getElementById('description').value = row.cells[6].textContent;
+
+            // Gán index hàng để sau biết đang sửa hàng nào
+            const modalEl = document.getElementById('addProductModal');
+            modalEl.setAttribute('data-edit-row-index', row.rowIndex)
+
+            addBtn.onclick = updateProduct;
+
+            bootstrap.Modal.getOrCreateInstance(modalEl).show();
+        }
+
+        // 
+        function resetModal() {
+            const addBtn = document.getElementById('addBtn');
+
+            document.getElementById('name').value = '';
+            document.getElementById('brand').value = 'Rolex';
+            document.getElementById('price').value = '';
+            document.getElementById('stock').value = '';
+            document.getElementById('description').value = '';
+            document.getElementById('image').value = '';
+            document.getElementById('image').removeAttribute('data-current-url');
+
+
+            // Reset modal title & button
+            document.getElementById('ModalLabel').textContent = 'Add new product';
+            document.getElementById('addBtn').textContent = 'Add';
+
+            // Xóa dữ liệu chỉnh sửa
+            document.getElementById('addProductModal').removeAttribute('data-edit-row-index');
+
+            addBtn.onclick = uploadAndAddProduct;
+        }
+        document.getElementById('addProductModal').addEventListener('hidden.bs.modal', resetModal);
+
+        function toggleProductStatus(button) {
+            const row = button.closest('tr');
+            const current = row.dataset.isActive === 'true';
+            const next = !current;
+            const id = parseInt(row.dataset.id, 10);
+
+            fetch('/Admin/QuanlySP/UpdateStatus', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ Id: id, IsActive: next })
+            })
+                .then(res => res.json())
+                .then(result => {
+                    if (result.success) {
+                        row.dataset.isActive = next;
+                        // chỉ đổi nút chứ không ẩn row
+                        button.textContent = next ? 'Hide' : 'Show';
+                        button.classList.toggle('btn-danger', next);
+                        button.classList.toggle('btn-success', !next);
+                    } else {
+                        alert('Không thể cập nhật trạng thái sản phẩm!');
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Lỗi khi gửi yêu cầu cập nhật trạng thái!');
+                });
+        }
+
+        // 3. Thêm 1 row mới (khi load hoặc thêm sản phẩm) — luôn hiển thị dù isActive = false
         function updateProductList(product) {
             const tableBody = document.getElementById('productTableBody');
             const row = tableBody.insertRow();
+            row.dataset.id = product.id;
+            row.dataset.isActive = product.isActive;
+
+            const isActive = product.isActive;
             row.innerHTML = `
-                        <th scope="row">${tableBody.rows.length}</th>
-                        <td><img src="${product.ImageUrl}" width="80" /></td>
-                        <td>${product.Name}</td>
-                        <td>${product.Brand}</td>
-                        <td>${product.Price.toLocaleString()} VNĐ</td>
-                        <td>${product.StockQuantity}</td>
-                        <td>${product.Description}</td>
-                        <td>
-                            <button class="btn btn-sm btn-warning" onclick="editProduct(${tableBody.rows.length - 1})">Edit</button>
-                            <button class="btn btn-sm btn-danger" onclick="deleteProduct(${tableBody.rows.length - 1})">Hide</button>
-                        </td>
-                    `;
+            <th scope="row">${tableBody.rows.length}</th>
+            <td><img src="/img/${product.imageUrl}" width="80" /></td>
+            <td>${product.name}</td>
+            <td>${product.brand}</td>
+            <td>${product.price}</td>
+            <td>${product.stockQuantity}</td>
+            <td>${product.description}</td>
+            <td>
+              <button class="btn btn-sm btn-warning" onclick="editProduct(this)">Edit</button>
+
+              <button class="btn btn-sm ${isActive ? 'btn-danger' : 'btn-success'}"
+                      onclick="toggleProductStatus(this)">
+                ${isActive ? 'Hide' : 'Show'}
+              </button>
+            </td>
+          `;
         }
 
         async function loadData() {
-            const response = await fetch('/Admin/QuanlySP/GetProducts');
-            const products = await response.json();
+            try {
+                const response = await fetch('/Admin/QuanlySP/GetProducts');
+                const products = await response.json();
+                const tableBody = document.getElementById('productTableBody');
+                tableBody.innerHTML = ''; // xóa hết trước khi thêm mới
 
-            const tableBody = document.getElementById('productTableBody');
-            tableBody.innerHTML = ''; // Xóa dữ liệu cũ
-
-            products.forEach((product, index) => {
-                const row = tableBody.insertRow();
-                row.innerHTML = `
-                            <th scope="row">${index + 1}</th>
-                            <td><img src="${product.imageUrl}" width="80" /></td>
-                            <td>${product.name}</td>
-                            <td>${product.brand}</td>
-                            <td>${product.price.toLocaleString()} VNĐ</td>
-                            <td>${product.stockQuantity}</td>
-                            <td>${product.description}</td>
-                            <td>
-                                <button class="btn btn-sm btn-warning" onclick="editProduct(${tableBody.rows.length - 1})">Edit</button>
-                                <button class="btn btn-sm btn-danger" onclick="deleteProduct(${tableBody.rows.length - 1})">Hide</button>
-                            </td>
-                        `;
-            });
+                products.forEach(product => {
+                    updateProductList(product);
+                });
+            } catch (err) {
+                console.error(err);
+                alert('Lỗi khi tải dữ liệu sản phẩm!');
+            }
         }
+
 
         document.addEventListener("DOMContentLoaded", loadData);
     </script>
