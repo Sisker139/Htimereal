@@ -17,6 +17,8 @@ namespace Htime.Models
         public string PasswordHash { get; set; }
 
         [Required]
+        public string Address { get; set; }
+        [Required]
         public string Role { get; set; } = "Customer";
     }
 }

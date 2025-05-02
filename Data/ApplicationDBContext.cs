@@ -1,6 +1,5 @@
 ﻿using Htime.Models;
 using Microsoft.EntityFrameworkCore;
-using Htime.Models;
 using System.Collections.Generic;
 
 
@@ -13,5 +12,6 @@ namespace Htime.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Cart> Carts { get; set; }
+        public DbSet<LoginVM> LoginVMs { get; set; }
     }
 }
