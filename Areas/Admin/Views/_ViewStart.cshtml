@@ -1,3 +1,42 @@
-﻿@{
+﻿@* @{
     Layout = "_Layoutadmin";
+} *@
+
+
+@using System.Security.Claims
+
+@{
+    var layout = "_Layoutmain"; // mặc định (vẫn là customer layout)
+
+
+
+    if (User.Identity != null && User.Identity.IsAuthenticated)
+
+    {
+
+        var role = User.FindFirstValue(ClaimTypes.Role);
+
+
+
+        if (role == "Admin")
+
+        {
+
+            layout = "/Views/Shared/_LayoutAdmin.cshtml";  // Ghi tuyệt đối, không nối chuỗi
+
+        }
+
+        else if (role == "Customer")
+
+        {
+
+            layout = "/Views/Shared/_Layoutmain.cshtml";
+
+        }
+
+    }
+
+
+
+    Layout = layout;
 }

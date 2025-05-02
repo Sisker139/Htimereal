@@ -1,4 +1,5 @@
-﻿
+﻿@model X.PagedList.IPagedList<Htime.Models.Product>
+@using X.PagedList.Mvc.Core
 @{
     ViewData["Title"] = "_Layoutmain";
 }
@@ -43,9 +44,9 @@
                 </div>
                 <div>
                     <a class="text-light" href="https://www.facebook.com/minhfap0809" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
-                    <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
+                    @* <a class="text-light" href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram fa-sm fa-fw me-2"></i></a>
                     <a class="text-light" href="https://twitter.com/" target="_blank"><i class="fab fa-twitter fa-sm fa-fw me-2"></i></a>
-                    <a class="text-light" href="https://www.linkedin.com/" target="_blank"><i class="fab fa-linkedin fa-sm fa-fw"></i></a>
+                    <a class="text-light" href="https://www.linkedin.com/" target="_blank"><i class="fab fa-linkedin fa-sm fa-fw"></i></a> *@
                 </div>
             </div>
         </div>
@@ -70,13 +71,10 @@
                             <a class="nav-link" asp-action="index" asp-controller="Home">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="about.html">About</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" asp-action="index" asp-controller="shop">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="contact.html">Contact</a>
+                            <a class="nav-link" asp-action="index" asp-controller="contact">Contact</a>
                         </li>                     
                     </ul>
                 </div>
@@ -94,12 +92,30 @@
                     </a>
                     <a class="nav-icon position-relative text-decoration-none" href="#">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
+                        
                     </a>
-                    <a class="nav-icon position-relative text-decoration-none" asp-controller="Account" asp-action="Login">
-                        <i class="fa fa-fw fa-user text-dark mr-3"></i>
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+99</span>
-                    </a>
+                    <div class="top-link pe-2">
+                        @if (User.Identity.IsAuthenticated)
+
+                        {
+                            <a class="text-dark text-decoration-none">Welcome @Context.User.Identity.Name,</a>
+
+                            <a asp-Controller="Account" asp-action="Logout" class="list-unstyled text-dark footer-link-list ">
+                                <small class="text-dark mx-2">Logout</small>
+                            </a>
+                        }
+
+                        else
+
+                        {
+                            <a class="nav-icon position-relative text-decoration-none" asp-controller="Account" asp-action="Login">
+                                <i class="fa fa-fw fa-user text-dark mr-3"></i>
+                            </a>
+                        }
+                    </div>
+
+
+                    
                 </div>
             </div>
 
@@ -136,7 +152,7 @@
                     <ul class="list-unstyled text-light footer-link-list">
                         <li>
                             <i class="fas fa-map-marker-alt fa-fw"></i>
-                            123 Consectetur at ligula 10660
+                            108/31 Trần Quang Diệu, An Thới, Bình Thủy, Cần Thơ
                         </li>
                         <li>
                             <i class="fa fa-phone fa-fw"></i>
@@ -150,26 +166,21 @@
                 </div>
 
                 <div class="col-md-4 pt-5">
-                    <h2 class="h2 text-light border-bottom pb-3 border-light">Products</h2>
+                    <h2 class="h2 text-light border-bottom pb-3 border-light">Brands</h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" href="#">Luxury</a></li>
-                        <li><a class="text-decoration-none" href="#">Sport Wear</a></li>
-                        <li><a class="text-decoration-none" href="#">Men's Shoes</a></li>
-                        <li><a class="text-decoration-none" href="#">Women's Shoes</a></li>
-                        <li><a class="text-decoration-none" href="#">Popular Dress</a></li>
-                        <li><a class="text-decoration-none" href="#">Gym Accessories</a></li>
-                        <li><a class="text-decoration-none" href="#">Sport Shoes</a></li>
+                        <li>   Audemars Piguet </li>
+                        <li>   Omega </li>
+                        <li>   Patek Philippe </li>
+                        <li>   Richard Mille </li>
+                        <li>   Rolex </li>
                     </ul>
                 </div>
 
                 <div class="col-md-4 pt-5">
                     <h2 class="h2 text-light border-bottom pb-3 border-light">Further Info</h2>
                     <ul class="list-unstyled text-light footer-link-list">
-                        <li><a class="text-decoration-none" href="#">Home</a></li>
-                        <li><a class="text-decoration-none" href="#">About Us</a></li>
-                        <li><a class="text-decoration-none" href="#">Shop Locations</a></li>
-                        <li><a class="text-decoration-none" href="#">FAQs</a></li>
-                        <li><a class="text-decoration-none" href="#">Contact</a></li>
+                        <li><a class="text-decoration-none" asp-action="index" asp-controller="Home">Home</a></li>                        
+                        <li><a class="text-decoration-none" asp-action="index" asp-controller="contact">Contact</a></li>
                     </ul>
                 </div>
 
@@ -182,17 +193,9 @@
                 <div class="col-auto me-auto">
                     <ul class="list-inline text-left footer-icons">
                         <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="http://facebook.com/"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
+                            <a class="text-light text-decoration-none" target="_blank" href="https://www.facebook.com/minhfap0809"><i class="fab fa-facebook-f fa-lg fa-fw"></i></a>
                         </li>
-                        <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://www.instagram.com/"><i class="fab fa-instagram fa-lg fa-fw"></i></a>
-                        </li>
-                        <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://twitter.com/"><i class="fab fa-twitter fa-lg fa-fw"></i></a>
-                        </li>
-                        <li class="list-inline-item border border-light rounded-circle text-center">
-                            <a class="text-light text-decoration-none" target="_blank" href="https://www.linkedin.com/"><i class="fab fa-linkedin fa-lg fa-fw"></i></a>
-                        </li>
+                       
                     </ul>
                 </div>
                 

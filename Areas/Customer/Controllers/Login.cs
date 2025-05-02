@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using Htime.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Htime.Controllers
 {
@@ -58,7 +59,7 @@ namespace Htime.Controllers
 
             return View();
         }
-
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
