@@ -52,6 +52,18 @@ namespace Htime.Areas.Customer.Controllers
         }
 
         [HttpPost]
+        public IActionResult Addtocart(int productId)
+        {
+            var product = _context.Products.FirstOrDefault(p => p.Id == productId);
+            if (product == null) {
+                return NotFound();
+            }
+
+            var cart = HttpContext.Session.GetObject<List<Cart>>("Cart") ?? new List<CartItem>();
+        }
+
+
+        [HttpPost]
         public IActionResult DeleteCart([FromBody] Cart cart)
         {
             var cartItem = _context.Carts.FirstOrDefault(c => c.Id == cart.Id);
