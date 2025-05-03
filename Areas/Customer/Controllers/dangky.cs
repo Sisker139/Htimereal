@@ -35,7 +35,7 @@ namespace Htime.Areas.Customer.Controllers
                 {
                     Name = model.Name,
                     Email = model.Email,
-                    PasswordHash = model.MatKhau
+                    Password = model.MatKhau
                 };
 
                 db.Users.Add(khachHang);

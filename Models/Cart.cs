@@ -32,6 +32,8 @@ namespace Htime.Models
         [Required]
         public int Quantity { get; set; }
 
-        public decimal TotalPrice => Price * Quantity;
+        public int SelectedQuantity { get; set; }
+
+
     }
 }

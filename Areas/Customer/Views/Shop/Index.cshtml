@@ -59,7 +59,12 @@
                                 <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                     <ul class="list-unstyled">
                                         <li><a class="btn btn-success text-white mt-2" asp-action="detail" asp-controller="Shop" asp-route-id="@item.Id"><i class="far fa-eye"></i></a></li>
-                                        <li><a class="btn btn-success text-white mt-2" asp-action="Addtocart" asp-controller="Cart"><i class="fas fa-cart-plus"></i></a></li>
+                                        <li>
+                                            <a href="javascript:void(0);" class="btn btn-success text-white mt-2 add-to-cart" data-id="@item.Id">
+                                                <i class="fas fa-cart-plus"></i>
+                                            </a>
+                                        </li>
+
                                     </ul>
                                 </div>
                             </div>
@@ -144,7 +149,36 @@
 </section>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+            btn.addEventListener('click', async function() {
+                const productId = this.dataset.id;
 
+                try {
+                    const res = await fetch('/Customer/Cart/AddToCart', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ productId: productId, selectedQuantity: 1 })
+                    });
+
+
+                    const data = await res.json();
+
+
+                    if (data.success) {
+                        alert("🛒 " + data.message);
+                        // TODO: update số lượng hiển thị nếu cần
+                    } else {
+                        alert("❌ " + data.message);
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert("⚠️ Đã xảy ra lỗi khi thêm vào giỏ hàng.");
+                }
+            });
+        });
+    });
 </script>
+
 
 <!--End Brands-->

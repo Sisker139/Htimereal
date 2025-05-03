@@ -35,7 +35,7 @@ namespace Htime.Controllers
             if (ModelState.IsValid)
             {
                 var user = _context.Users.FirstOrDefault(u => u.Email == model.Email);
-                if (user == null || user.PasswordHash != model.Password)
+                if (user == null || user.Password != model.Password)
                 {
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View();
@@ -52,6 +52,9 @@ namespace Htime.Controllers
                 var principal = new ClaimsPrincipal(identity);
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                
+                HttpContext.Session.SetInt32("UserId", user.Id);
 
                 if (Url.IsLocalUrl(returnUrl))
                     return Redirect(returnUrl);

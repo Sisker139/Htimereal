@@ -33,30 +33,32 @@
 
                         <h6>Số lượng còn lại: <span class="text-danger">@Model.StockQuantity</span></h6>
 
-                        <form asp-action="AddToCart" asp-controller="Cart" method="post">
-                            <input type="hidden" name="productId" value="@Model.Id" />
-                            <div class="row">
-                                <div class="col-auto">
-                                    <ul class="list-inline pb-3">
-                                        <li class="list-inline-item text-right">
-                                            Số lượng:
-                                        </li>
-                                        <div style="display: inline-flex; align-items: center; gap: 5px;">
-                                            <button type="button" class="btn btn-sm btn-secondary" onclick="decreaseQty(this)">−</button>
-                                            <input type="text" value="1" name="quantity" class="form-control" style="width: 50px; text-align: center;" />
-                                            <button type="button" class="btn btn-sm btn-secondary" onclick="increaseQty(this)">+</button>
-                                        </div>
-                                    </ul>
-                                </div>
+                        <div class="row">
+                            <div class="col-auto">
+                                <ul class="list-inline pb-3">
+                                    <li class="list-inline-item text-right">
+                                        Số lượng:
+                                    </li>
+                                    <div style="display: inline-flex; align-items: center; gap: 5px;">
+                                        <button type="button" class="btn btn-sm btn-secondary" onclick="decreaseQty(this)">−</button>
+                                        <input type="text" value="1" id="quantity-@Model.Id" class="form-control quantity-input" style="width: 50px; text-align: center;" />
+                                        <button type="button" class="btn btn-sm btn-secondary" onclick="increaseQty(this)">+</button>
+                                    </div>
+                                </ul>
                             </div>
-                            <div class="row pb-3">
-                                <div class="col d-grid">
-                                    <button type="submit" class="btn btn-success btn-lg">Thêm vào giỏ hàng</button>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
 
-                        
+                        <div class="row pb-3">
+                            <div class="col d-grid">
+                                <button type="button"
+                                        class="btn btn-success btn-lg add-to-cart"
+                                        data-product-id="@Model.Id"
+                                        data-stock="@Model.StockQuantity">
+                                    Thêm vào giỏ hàng
+                                </button>
+                            </div>
+                        </div>
+
                         <script>
                             function increaseQty(btn) {
                                 let input = btn.previousElementSibling;
@@ -69,6 +71,37 @@
                                 let value = parseInt(input.value) || 0;
                                 if (value > 1) input.value = value - 1;
                             }
+
+                            document.querySelectorAll('.add-to-cart').forEach(button => {
+                                button.addEventListener('click', async () => {
+                                    const productId = parseInt(button.dataset.productId, 10);
+                                    const stock = parseInt(button.dataset.stock, 10);
+                                    const quantityInput = document.getElementById(`quantity-${productId}`);
+                                    const selectedQuantity = parseInt(quantityInput?.value || "1", 10);
+
+                                    if (selectedQuantity > stock) {
+                                        alert("Số lượng vượt quá số lượng còn hàng!");
+                                        return;
+                                    }
+
+                                    const res = await fetch('/Customer/Cart/AddToCart', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({
+                                            productId: productId,
+                                            selectedQuantity: selectedQuantity
+                                        })
+                                    });
+
+                                    const data = await res.json();
+
+                                    if (data.success) {
+                                        alert("Đã thêm sản phẩm vào giỏ hàng!");
+                                    } else {
+                                        alert(data.message || "Lỗi khi thêm vào giỏ hàng.");
+                                    }
+                                });
+                            });
                         </script>
                     </div>
                 </div>

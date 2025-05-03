@@ -1,5 +1,62 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<Htime.Models.Order>
+
 @{
+    ViewData["Title"] = "Quản lý đơn hàng";
 }
+
+<div class="container my-5">
+    <h2 class="mb-4">Quản lý đơn hàng</h2>
+
+    @if (Model.Count == 0)
+    {
+        <div class="alert alert-info">Không có đơn hàng nào.</div>
+    }
+    else
+    {
+        foreach (var order in Model)
+        {
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>Đơn hàng #@order.Id</strong><br />
+                        Ngày đặt: @order.OrderDate.ToString("dd/MM/yyyy HH:mm")
+                    </div>
+                    <form asp-action="ConfirmOrder" asp-area="Admin" asp-controller="QuanlyDH" method="post">
+                        <input type="hidden" name="orderId" value="@order.Id" />
+
+                        <button type="submit" class="btn btn-success">Xác nhận đơn</button>
+                    </form>
+                </div>
+                <div class="card-body">
+                    <p><strong>Giao tới:</strong> @order.ShippingAddress</p>
+                    <table class="table table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <th>Hình ảnh</th>
+                                <th>Giá</th>
+                                <th>Số lượng</th>
+                                <th>Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in order.OrderDetails)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td><img src="~/img/@item.Image" width="50" /></td>
+                                    <td>$@item.Price.ToString("0.00")</td>
+                                    <td>@item.Quantity</td>
+                                    <td>$@(item.Price * item.Quantity).ToString("0.00")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div class="text-end">
+                        <strong>Tổng tiền:</strong> <span class="fs-5 fw-bold">$@order.Total.ToString("0.00")</span>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

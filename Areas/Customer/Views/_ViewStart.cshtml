@@ -1,42 +1,4 @@
-﻿@* @{
+﻿@{
     Layout = "_Layoutmain";
 }
- *@
 
- @using System.Security.Claims
-
-@{
-    var layout = "/Views/Shared/_Layoutmain.cshtml"; // Default cho customer
-
-
-
-    if (User.Identity != null && User.Identity.IsAuthenticated)
-
-    {
-
-        var role = User.FindFirstValue(ClaimTypes.Role);
-
-
-
-        if (role == "Admin")
-
-        {
-
-            layout = "/Views/Shared/_LayoutAdmin.cshtml";
-
-        }
-
-        else if (role == "Customer")
-
-        {
-
-            layout = "/Views/Shared/_Layoutmain.cshtml";
-
-        }
-
-    }
-
-
-
-    Layout = layout;
-}

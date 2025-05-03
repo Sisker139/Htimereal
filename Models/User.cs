@@ -14,7 +14,7 @@ namespace Htime.Models
         public string Email { get; set; }
 
         [Required]
-        public string PasswordHash { get; set; }
+        public string Password { get; set; }
 
 
         [Required]

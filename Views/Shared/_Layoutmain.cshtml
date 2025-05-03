@@ -91,6 +91,9 @@
                     <a class="nav-icon position-relative text-decoration-none" asp-area="Customer" asp-controller="Cart" asp-action="Index">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
                     </a>
+                    <a class="nav-icon position-relative text-decoration-none" asp-area="Customer" asp-controller="Order" asp-action="Index">
+                        <img src="~/icon/shopping_bag_2.svg" alt="Đơn đã đặt" style="width: 24px; height:24px; margin-top: -7px">
+                    </a>
                     <div class="top-link pe-2">
                         @if (User.Identity.IsAuthenticated)
 

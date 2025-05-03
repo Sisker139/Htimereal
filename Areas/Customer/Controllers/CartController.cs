@@ -2,6 +2,7 @@
 using Htime.Models;
 using Htime.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Htime.Areas.Customer.Controllers
@@ -16,12 +17,28 @@ namespace Htime.Areas.Customer.Controllers
             _context = context;
         }
 
+        private int? GetUserId()
+        {
+            var userEmail = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Email)?.Value;
+            var user = _context.Users.FirstOrDefault(u => u.Email == userEmail);
+            return user?.Id;
+        }
+
+
         public IActionResult Index(int page = 1)
         {
+            var userId = GetUserId();
+            if (userId == null) return RedirectToAction("Login", "Account");
+
             int pageSize = 10;
-            
-            var totalItems = _context.Carts.Count();
-            var carts = _context.Carts.OrderBy(c => c.Id).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            var userCarts = _context.Carts.Where(c => c.UserId == userId);
+
+            var totalItems = userCarts.Count();
+            var carts = userCarts.OrderBy(c => c.Id)
+                                 .Skip((page - 1) * pageSize)
+                                 .Take(pageSize)
+                                 .ToList();
+
             var viewModel = new CartViewModel
             {
                 Carts = carts,
@@ -51,16 +68,51 @@ namespace Htime.Areas.Customer.Controllers
             }
         }
 
-        [HttpPost]
-        public IActionResult Addtocart(int productId)
+        public class AddToCartRequest
         {
-            var product = _context.Products.FirstOrDefault(p => p.Id == productId);
-            if (product == null) {
-                return NotFound();
+            public int ProductId { get; set; }
+            public int SelectedQuantity { get; set; }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddToCart([FromBody] AddToCartRequest request)
+        {
+            var userId = GetUserId();
+            if (userId == null) return RedirectToAction("Login", "Account");
+            //if (userId == null) return Unauthorized();
+
+            var product = await _context.Products.FindAsync(request.ProductId);
+            if (product == null) return NotFound();
+
+            if (request.SelectedQuantity > product.StockQuantity)
+                return Json(new { success = false, message = "Số lượng vượt quá tồn kho!" });
+
+            var existingCart = await _context.Carts
+                .FirstOrDefaultAsync(c => c.UserId == userId && c.ProductId == request.ProductId);
+
+            if (existingCart != null)
+            {
+                return Json(new { success = false, message = "Sản phẩm đã có trong giỏ hàng." });
             }
 
-            var cart = HttpContext.Session.GetObject<List<Cart>>("Cart") ?? new List<CartItem>();
+            var cartItem = new Cart
+            {
+                UserId = userId.Value,
+                ProductId = product.Id,
+                Name = product.Name,
+                Image = product.ImageUrl,
+                Price = product.Price,
+                Quantity = product.StockQuantity,
+                SelectedQuantity = request.SelectedQuantity
+            };
+
+            _context.Carts.Add(cartItem);
+            await _context.SaveChangesAsync();
+
+            return Json(new { success = true, selectedquantity = request.SelectedQuantity, message = "Đã thêm vào giỏ hàng!" });
         }
+
+
 
 
         [HttpPost]
@@ -77,14 +129,49 @@ namespace Htime.Areas.Customer.Controllers
             return Json(new { success = true });
         }
 
-        [HttpPost]
-        public IActionResult ClearCart()
+        public class CheckoutRequest
         {
-            var allCartItems = _context.Carts.ToList();
-            _context.Carts.RemoveRange(allCartItems);
-            _context.SaveChanges();
+            public string ShippingAddress { get; set; }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Checkout([FromBody] CheckoutRequest request)
+        {
+            var userId = GetUserId();
+            if (userId == null) return Unauthorized();
+
+
+            if (string.IsNullOrWhiteSpace(request.ShippingAddress))
+                return Json(new { success = false, message = "Vui lòng nhập địa chỉ giao hàng." });
+
+            var cartItems = await _context.Carts.Where(c => c.UserId == userId).ToListAsync();
+            if (!cartItems.Any())
+                return Json(new { success = false, message = "Giỏ hàng trống." });
+
+            var order = new Order
+            {
+                UserId = userId.Value,
+                OrderDate = DateTime.Now,
+                Total = cartItems.Sum(c => c.Price * c.SelectedQuantity),
+                ShippingAddress = request.ShippingAddress,
+                OrderDetails = cartItems.Select(c => new OrderDetail
+                {
+                    ProductId = c.ProductId,
+                    Name = c.Name,
+                    Image = c.Image,
+                    Price = c.Price,
+                    Quantity = c.SelectedQuantity
+                }).ToList()
+            };
+
+            _context.Orders.Add(order);
+            _context.Carts.RemoveRange(cartItems);
+            await _context.SaveChangesAsync();
+
             return Json(new { success = true });
         }
+
+
 
 
     }

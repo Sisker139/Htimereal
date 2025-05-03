@@ -50,14 +50,13 @@
                             <small class="text-muted">Quantity: @item.Quantity</small>
                             <div class="mt-2 d-flex align-items-center gap-2">
                                 <button id="minus-btn-@item.Id" class="btn btn-outline-secondary btn-sm qty-btn">-</button>
-                                <span id="count-@item.Id">1</span>
+                                <span id="count-@item.Id">@item.SelectedQuantity</span>
                                 <button id="plus-btn-@item.Id" class="btn btn-outline-secondary btn-sm qty-btn">+</button>
-
                             </div>
                         </div>
                     </div>
                     <div class="text-end">
-                        <p class="mb-1 fw-bold mb-4" id="total-@item.Id">$@item.Price</p>
+                        <p class="mb-1 fw-bold mb-4" id="total-@item.Id">$@(item.Price * item.SelectedQuantity)</p>
                         <button class="btn p-0 btn-remove d-flex align-items-center gap-1" data-id="@item.Id">
                             <span class="bi bi-trash">Remove</span>
                         </button>
@@ -89,6 +88,12 @@
                 </div>
             </div>
         </div>
+
+        <div class="mb-3">
+            <label for="shippingAddress" class="form-label fw-bold">Địa chỉ giao hàng</label>
+            <textarea id="shippingAddress" class="form-control" placeholder="Nhập địa chỉ..." rows="3"></textarea>
+        </div>
+
         <!-- Buttons -->
         <div class="d-flex flex-row-reverse justify-content-between">
             <a href="#" id="checkout-btn" class="btn btn-dark">
@@ -113,19 +118,19 @@
                 if (data.success) {
                     const maxQuantity = data.quantity;
 
-                    let count = 1;
                     const countDisplay = document.getElementById(`count-${id}`);
+                    let count = parseInt(countDisplay.textContent, 10) || 1;
+
                     const plusBtn = document.getElementById(`plus-btn-${id}`);
                     const minusBtn = document.getElementById(`minus-btn-${id}`);
                     const total = document.getElementById(`total-${id}`);
-
 
                     function increase() {
                         if (count < maxQuantity) {
                             count++;
                             countDisplay.textContent = count;
                             total.textContent = `$${(count * data.price).toFixed(2)}`;
-                            updateTotal();                            
+                            updateTotal();
                         }
                     }
 
@@ -139,7 +144,7 @@
                     }
 
                     plusBtn.onclick = increase;
-                    minusBtn.onclick = decrease;    
+                    minusBtn.onclick = decrease;
 
                 } else {
                     alert(data.message);
@@ -147,8 +152,8 @@
             } catch (err) {
                 console.error("Fetch error:", err);
             }
-            
         }
+
         
         function updateTotal() {
             const cartItems = document.querySelectorAll('.cart-item');
@@ -216,17 +221,28 @@
             document.getElementById('checkout-btn').addEventListener('click', async (e) => {
                 e.preventDefault(); // Ngăn chuyển trang
 
-                const res = await fetch('/Customer/Cart/ClearCart', {
+                const address = document.getElementById('shippingAddress').value.trim();
+                if (!address) {
+                    alert("Vui lòng nhập địa chỉ giao hàng.");
+                    return;
+                }
+
+                const res = await fetch('/Customer/Cart/Checkout', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' }
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ shippingAddress: address })
                 });
+
                 const data = await res.json();
                 if (data.success) {
                     document.querySelectorAll('.cart-item').forEach(item => item.remove());
-                    alert("🎉 Thanh toán thành công!");
+                    alert("🎉 Đặt hàng thành công!");
                     updateTotal();
+                } else {
+                    alert(data.message || "Có lỗi xảy ra khi đặt hàng.");
                 }
             });
+
         });
 
     </script>
