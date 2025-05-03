@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Htime.Controllers
 {
+    [Area("Customer")]
     public class AccountController : Controller
     {
         private readonly ApplicationDBContext _context;
