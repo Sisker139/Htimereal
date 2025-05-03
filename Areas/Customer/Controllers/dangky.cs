@@ -8,6 +8,7 @@ using System.Security.Claims;
 
 namespace Htime.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class dangky : Controller
     {
         private readonly ApplicationDBContext db;
