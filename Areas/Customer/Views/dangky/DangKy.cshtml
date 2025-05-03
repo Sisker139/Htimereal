@@ -1,0 +1,47 @@
+﻿@model Htime.Models.RegisterVM
+@{
+    ViewData["Title"] = "Đăng ký";
+    Layout = "~/Views/Shared/_Layoutmain.cshtml"; // Thêm dòng này
+}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <div class="row g-0">
+                    <div class="col-md-6">
+                        <img src="/img/anhdangky1.jpg" alt="Watch" class="img-fluid h-100 w-100 object-fit-cover" style="object-fit: cover;">
+                    </div>
+                    <div class="col-md-6 bg-white p-5">
+                        <h5 class="text-uppercase fw-bold">HTIME</h5>
+                        <h2 class="mb-4 fw-bold">Welcome Valued Customers</h2>
+
+                        <form asp-action="DangKy" method="post" novalidate>
+                            <div class="mb-3">
+                                <label asp-for="Name" class="form-label"></label>
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="Email" class="form-label"></label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="MatKhau" class="form-label"></label>
+                                <input asp-for="MatKhau" class="form-control" />
+                                <span asp-validation-for="MatKhau" class="text-danger"></span>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Sign up</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- jQuery Validation -->
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.19.5/jquery.validate.min.js"></script>
+
