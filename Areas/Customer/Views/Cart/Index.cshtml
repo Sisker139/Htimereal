@@ -1,9 +1,17 @@
-﻿<!DOCTYPE html>
+﻿@model Htime.Models.ViewModel.CartViewModel
+
+@{
+    ViewData["Title"] = "ViewModel";
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Your Cart</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
     <style>
         .product-img-placeholder {
           width: 80px;
@@ -28,82 +36,200 @@
 
     <div class="container my-5">
         <h2 class="fw-bold mb-4">Your Cart</h2>
+            @foreach (var item in Model.Carts)
+            {
+                <div class="card mb-3 p-3 cart-item" data-id="@item.Id">
+                <!-- Item 1 -->
+                <div class="d-flex align-items-center justify-content-between border-bottom pb-3">
+                    <div class="d-flex align-items-center">
+                        <div class="product-img-placeholder me-3">
+                            <img src="~/img/@item.Image" alt="Product" class="img-fluid">
+                        </div>
+                        <div>
+                            <h6 class="mb-1 fw-bold">@item.Name</h6>
+                            <small class="text-muted">Quantity: @item.Quantity</small>
+                            <div class="mt-2 d-flex align-items-center gap-2">
+                                <button id="minus-btn-@item.Id" class="btn btn-outline-secondary btn-sm qty-btn">-</button>
+                                <span id="count-@item.Id">1</span>
+                                <button id="plus-btn-@item.Id" class="btn btn-outline-secondary btn-sm qty-btn">+</button>
 
-        <div class="card mb-3 p-3">
-            <!-- Item 1 -->
-            <div class="d-flex align-items-center justify-content-between border-bottom pb-3">
-                <div class="d-flex align-items-center">
-                    <div class="product-img-placeholder me-3">
-                        <img src="https://via.placeholder.com/60" alt="Product" class="img-fluid">
-                    </div>
-                    <div>
-                        <h6 class="mb-1 fw-bold">Premium Headphones</h6>
-                        <small class="text-muted">Black</small>
-                        <div class="mt-2 d-flex align-items-center gap-2">
-                            <button class="btn btn-outline-secondary btn-sm qty-btn">−</button>
-                            <span>1</span>
-                            <button class="btn btn-outline-secondary btn-sm qty-btn">+</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="text-end">
-                    <p class="mb-1 fw-bold">$149.99</p>
-                    <button class="btn btn-link text-danger p-0">🗑️ Remove</button>
+                    <div class="text-end">
+                        <p class="mb-1 fw-bold mb-4" id="total-@item.Id">$@item.Price</p>
+                        <button class="btn p-0 btn-remove d-flex align-items-center gap-1" data-id="@item.Id">
+                            <span class="bi bi-trash">Remove</span>
+                        </button>
+                    </div>
                 </div>
             </div>
+        }
 
-            <!-- Item 2 -->
-            <div class="d-flex align-items-center justify-content-between pt-3">
-                <div class="d-flex align-items-center">
-                    <div class="product-img-placeholder me-3">
-                        <img src="https://via.placeholder.com/60" alt="Product" class="img-fluid">
-                    </div>
-                    <div>
-                        <h6 class="mb-1 fw-bold">Minimalist Watch</h6>
-                        <small class="text-muted">Silver</small>
-                        <div class="mt-2 d-flex align-items-center gap-2">
-                            <button class="btn btn-outline-secondary btn-sm qty-btn">−</button>
-                            <span>2</span>
-                            <button class="btn btn-outline-secondary btn-sm qty-btn">+</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-end">
-                    <p class="mb-1 fw-bold">$89.99</p>
-                    <button class="btn btn-link text-danger p-0">🗑️ Remove</button>
-                </div>
-            </div>
+        <div id="empty-cart-message" class="text-center text-muted my-5" style="display: none; max-height: ">
+            <h5>🛒 Your cart is empty</h5>
         </div>
 
         <!-- Order Summary -->
-        <div class="card p-3 mb-4">
-            <h6 class="fw-bold mb-3">Order Summary</h6>
-            <div class="d-flex justify-content-between">
-                <span class="text-muted">Subtotal</span>
-                <span class="fw-bold">$329.97</span>
-            </div>
-            <div class="d-flex justify-content-between">
-                <span class="text-muted">Shipping</span>
-                <span class="fw-bold">$9.99</span>
-            </div>
-            <hr>
-            <div class="d-flex justify-content-between">
-                <span class="fw-bold">Total</span>
-                <span class="fw-bold fs-5">$364.71</span>
+        <div id="order-summary">
+            <div class="card p-3 mb-4">
+                <h6 class="fw-bold mb-3">Order Summary</h6>
+                <div class="d-flex justify-content-between">
+                    <span class="text-muted">Subtotal</span>
+                    <span class="fw-bold" id="subtotal"></span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span class="text-muted">Shipping</span>
+                    <span class="fw-bold">$9.99</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <span class="fw-bold">Total</span>
+                    <span class="fw-bold fs-5" id="total"></span>
+                </div>
             </div>
         </div>
-
         <!-- Buttons -->
-        <div class="d-flex justify-content-between">
-            <a href="#" class="btn btn-outline-dark">
-                ← Continue Shopping
-            </a>
-            <a href="#" class="btn btn-dark">
+        <div class="d-flex flex-row-reverse justify-content-between">
+            <a href="#" id="checkout-btn" class="btn btn-dark">
                 Proceed to Checkout →
             </a>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        async function setupCounter(row) {
+            const id = parseInt(row.dataset.id, 10);
+
+            try {
+                const res = await fetch('/Customer/Cart/GetQuantity', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ Id: id })
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    const maxQuantity = data.quantity;
+
+                    let count = 1;
+                    const countDisplay = document.getElementById(`count-${id}`);
+                    const plusBtn = document.getElementById(`plus-btn-${id}`);
+                    const minusBtn = document.getElementById(`minus-btn-${id}`);
+                    const total = document.getElementById(`total-${id}`);
+
+
+                    function increase() {
+                        if (count < maxQuantity) {
+                            count++;
+                            countDisplay.textContent = count;
+                            total.textContent = `$${(count * data.price).toFixed(2)}`;
+                            updateTotal();                            
+                        }
+                    }
+
+                    function decrease() {
+                        if (count > 1) {
+                            count--;
+                            countDisplay.textContent = count;
+                            total.textContent = `$${(count * data.price).toFixed(2)}`;
+                            updateTotal();
+                        }
+                    }
+
+                    plusBtn.onclick = increase;
+                    minusBtn.onclick = decrease;    
+
+                } else {
+                    alert(data.message);
+                }
+            } catch (err) {
+                console.error("Fetch error:", err);
+            }
+            
+        }
+        
+        function updateTotal() {
+            const cartItems = document.querySelectorAll('.cart-item');
+
+            if (cartItems.length === 0) {
+                document.getElementById('empty-cart-message').style.display = 'block';
+                document.getElementById('order-summary').style.display = 'none';
+                return;
+            } else {
+                document.getElementById('empty-cart-message').style.display = 'none';
+                document.getElementById('order-summary').style.display = 'block';
+            }
+
+            let subtotal = 0;
+            cartItems.forEach(item => {
+                const priceText = item.querySelector('[id^="total-"]').textContent.replace('$', '');
+                const price = parseFloat(priceText);
+                if (!isNaN(price)) {
+                    subtotal += price;
+                }
+            });
+
+            const shipping = 9.99;
+            const total = subtotal + shipping;
+
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+        }
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const rows = document.querySelectorAll('.cart-item');
+
+            rows.forEach(row => {
+                setupCounter(row);
+            });
+
+            setTimeout(updateTotal, 300);
+
+            document.querySelectorAll('.btn-remove').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const id = parseInt(btn.dataset.id, 10);
+                    const row = btn.closest('.cart-item');
+
+                    try {
+                        const res = await fetch('/Customer/Cart/DeleteCart', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ Id: id })
+                        });
+
+                        const data = await res.json();
+
+                        if (data.success) {
+                            row.remove();
+                            updateTotal(); // nếu có
+                        } else {
+                            alert(data.message || "Xoá thất bại.");
+                        }
+                    } catch (err) {
+                        console.error("Delete fetch error:", err);
+                    }
+                });
+            });
+            document.getElementById('checkout-btn').addEventListener('click', async (e) => {
+                e.preventDefault(); // Ngăn chuyển trang
+
+                const res = await fetch('/Customer/Cart/ClearCart', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await res.json();
+                if (data.success) {
+                    document.querySelectorAll('.cart-item').forEach(item => item.remove());
+                    alert("🎉 Thanh toán thành công!");
+                    updateTotal();
+                }
+            });
+        });
+
+    </script>
+
 </body>
 </html>

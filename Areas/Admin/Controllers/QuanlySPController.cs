@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Htime.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class QuanlySPController : Controller
     {
         private readonly ApplicationDBContext _context;

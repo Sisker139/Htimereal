@@ -23,6 +23,8 @@ namespace Htime.Models
 
         [Required]
         public string Name { get; set; }
+        [Required]
+        public string Image {  get; set; }
 
         [Required, Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }

@@ -1,6 +1,4 @@
-﻿@model X.PagedList.IPagedList<Htime.Models.Product>
-@using X.PagedList.Mvc.Core
-@{
+﻿@{
     ViewData["Title"] = "_Layoutmain";
 }
 
@@ -68,13 +66,13 @@
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="index" asp-controller="Home">Home</a>
+                            <a class="nav-link" asp-area="Customer" asp-action="index" asp-controller="Home">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="index" asp-controller="shop">Shop</a>
+                            <a class="nav-link" asp-area="Customer" asp-action="index" asp-controller="Shop">Shop</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="index" asp-controller="contact">Contact</a>
+                            <a class="nav-link" asp-area="Customer" asp-action="index" asp-controller="Contact">Contact</a>
                         </li>                     
                     </ul>
                 </div>
@@ -90,9 +88,8 @@
                     <a class="nav-icon d-none d-lg-inline" href="#" data-bs-toggle="modal" data-bs-target="#templatemo_search">
                         <i class="fa fa-fw fa-search text-dark mr-2"></i>
                     </a>
-                    <a class="nav-icon position-relative text-decoration-none" href="#">
+                    <a class="nav-icon position-relative text-decoration-none" asp-area="Customer" asp-controller="Cart" asp-action="Index">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
-                        
                     </a>
                     <div class="top-link pe-2">
                         @if (User.Identity.IsAuthenticated)

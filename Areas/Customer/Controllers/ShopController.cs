@@ -5,6 +5,7 @@ using X.PagedList.Extensions;
 
 namespace Htime.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class ShopController : Controller
     {
         private readonly ApplicationDBContext db;
