@@ -1,5 +1,504 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Zay Shop eCommerce HTML CSS Template</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="assets/img/apple-icon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/templatemo.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet" href="assets/css/fontawesome.min.css">
+</head>
+<body>
+    <!-- Start Banner Hero (Image Only Carousel) -->
+    <div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="0" class="active"></li>
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1"></li>
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <!-- Slide 1 -->
+            <div class="carousel-item active">
+                <img src="~/img/banner1.png" class="d-block w-100" alt="Banner 1" style="max-height: 500px; object-fit: cover;">
+            </div>
+            <!-- Slide 2 -->
+            <div class="carousel-item">
+                <img src="~/img/banner2.png" class="d-block w-100" alt="Banner 2" style="max-height: 500px; object-fit: cover;">
+            </div>
+            <!-- Slide 3 -->
+            <div class="carousel-item">
+                <img src="~/img/banner3.png" class="d-block w-100" alt="Banner 3" style="max-height: 500px; object-fit: cover;">
+            </div>
+        </div>
+        <!-- Controls -->
+        <a class="carousel-control-prev" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </a>
+    </div>
+    <!-- End Banner Hero -->
+
+    <section class="container" style="padding: 5rem 0;">
+        <div class="row text-center" style="margin-bottom: 2rem;">
+            <div class="col-lg-6 m-auto">
+                <h1 class="h1" style="margin-bottom: 0.5rem;">Our Services</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-lg-3 pb-5">
+                <div class="h-100 py-5 services-icon-wap shadow">
+                    <div class="h1 text-success text-center"><i class="fa fa-truck fa-lg"></i></div>
+                    <h2 class="h5 mt-4 text-center">Delivery Services</h2>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 pb-5">
+                <div class="h-100 py-5 services-icon-wap shadow">
+                    <div class="h1 text-success text-center"><i class="fas fa-exchange-alt"></i></div>
+                    <h2 class="h5 mt-4 text-center">Shipping & Return</h2>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 pb-5">
+                <div class="h-100 py-5 services-icon-wap shadow">
+                    <div class="h1 text-success text-center"><i class="fa fa-percent"></i></div>
+                    <h2 class="h5 mt-4 text-center">Promotion</h2>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 pb-5">
+                <div class="h-100 py-5 services-icon-wap shadow">
+                    <div class="h1 text-success text-center"><i class="fa fa-user"></i></div>
+                    <h2 class="h5 mt-4 text-center">24 Hours Service</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+   
+    <section style="padding: 5rem 0;">
+        <div class="container">
+            <div class="row text-center" style="margin-bottom: 2rem;">
+                <div class="col-lg-6 m-auto">
+                    <h1 class="h1" style="margin-bottom: 0.5rem;">Đồng Hồ Nổi Bật</h1>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Sản phẩm 1 -->
+                <div class="col-md-3">
+                    <div class="card mb-4 product-wap rounded-0">
+                        <div class="card rounded-0 position-relative">
+                            <a href="#">
+                                <img class="card-img rounded-0 img-fluid" src="~/img/AP_Diamond_Fury.jpg" alt="Đồng hồ 1" style="width: 100%; height: 300px; object-fit: cover;" />
+                            </a>
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="fas fa-cart-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body" style="height: 100px; overflow: hidden;">
+                            <a href="#" class="h3 text-decoration-none">AP Diamond Fury</a>
+                            <p class="mb-0 text-danger text-start">$250,000</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card mb-4 product-wap rounded-0">
+                        <div class="card rounded-0 position-relative">
+                            <a href="#"><img class="card-img rounded-0 img-fluid" src="~/img/AP_Royal_Oak.jpg" alt="Đồng hồ 2" style="width: 100%; height: 300px; object-fit: cover;" /></a>
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="fas fa-cart-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body" style="height: 100px; overflow: hidden;">
+                            <a href="#" class="h3 text-decoration-none">AP Royal Oak</a>
+                            <p class="mb-0 text-danger text-start">$40,000</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card mb-4 product-wap rounded-0">
+                        <div class="card rounded-0 position-relative">
+                            <a href="#"><img class="card-img rounded-0 img-fluid" src="~/img/AP_Royal_Oak_Concept.jpg" alt="Đồng hồ 2" style="width: 100%; height: 300px; object-fit: cover;" /></a>
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="fas fa-cart-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body" style="height: 100px; overflow: hidden;">
+                            <a href="#" class="h3 text-decoration-none">AP Royal Oak Concept</a>
+                            <p class="mb-0 text-danger text-start">$200,000</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card mb-4 product-wap rounded-0">
+                        <div class="card rounded-0 position-relative">
+                            <a href="#"><img class="card-img rounded-0 img-fluid" src="~/img/AP_Royal_Oak_Chronograph.jpg" alt="Đồng hồ 2" style="width: 100%; height: 300px; object-fit: cover;" /></a>
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="fas fa-cart-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body" style="height: 100px; overflow: hidden;">
+                            <a href="#" class="h3 text-decoration-none">AP Royal Oak Chronograph</a>
+                            <p class="mb-0 text-danger text-start">$60,000</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Sản phẩm 5 -->
+                <div class="col-md-3">
+                    <div class="card mb-4 product-wap rounded-0">
+                        <div class="card rounded-0 position-relative">
+                            <a href="#"><img class="card-img rounded-0 img-fluid" src="~/img/Omega_Seamaster_Aqua_Terra.jpg" alt="Omega Seamaster Aqua Terra" style="width: 100%; height: 300px; object-fit: cover;" /></a>
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="fas fa-cart-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body" style="height: 100px; overflow: hidden;">
+                            <a href="#" class="h3 text-decoration-none">Omega Seamaster Aqua Terra</a>
+                            <p class="mb-0 text-danger text-start">$6,500</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Sản phẩm 6 -->
+                <div class="col-md-3">
+                    <div class="card mb-4 product-wap rounded-0">
+                        <div class="card rounded-0 position-relative">
+                            <a href="#"><img class="card-img rounded-0 img-fluid" src="~/img/Omega_De_Ville.jpg" alt="Omega De Ville" style="width: 100%; height: 300px; object-fit: cover;" /></a>
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="fas fa-cart-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body" style="height: 100px; overflow: hidden;">
+                            <a href="#" class="h3 text-decoration-none">Omega De Ville</a>
+                            <p class="mb-0 text-danger text-start">$5,800</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Sản phẩm 7 -->
+                <div class="col-md-3">
+                    <div class="card mb-4 product-wap rounded-0">
+                        <div class="card rounded-0 position-relative">
+                            <a href="#"><img class="card-img rounded-0 img-fluid" src="~/img/Omega_Constellation.jpg" alt="Omega Constellation" style="width: 100%; height: 300px; object-fit: cover;" /></a>
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="fas fa-cart-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body" style="height: 100px; overflow: hidden;">
+                            <a href="#" class="h3 text-decoration-none">Omega Constellation</a>
+                            <p class="mb-0 text-danger text-start">$7,200</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Sản phẩm 8 -->
+                <div class="col-md-3">
+                    <div class="card mb-4 product-wap rounded-0">
+                        <div class="card rounded-0 position-relative">
+                            <a href="#"><img class="card-img rounded-0 img-fluid" src="~/img/Patek_Minute_Repeater.jpg" alt="Patek Philippe Minute Repeater" style="width: 100%; height: 300px; object-fit: cover;" /></a>
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="fas fa-cart-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body" style="height: 100px; overflow: hidden;">
+                            <a href="#" class="h3 text-decoration-none">Patek Philippe Minute Repeater</a>
+                            <p class="mb-0 text-danger text-start">$500,000</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section style="padding: 5rem 0;">
+        <div class="container">
+            <div class="row text-center" style="margin-bottom: 2rem;">
+                <div class="col-lg-6 m-auto">
+                    <h1 class="h1" style="margin-bottom: 0.5rem;">Sản Phẩm Mới</h1>
+                    <p class="text-muted" style="margin-bottom: 0;">Khám phá bộ sưu tập đồng hồ mới nhất từ các thương hiệu hàng đầu.</p>
+                </div>
+            </div>
+            <div class="row">
+                <!-- New Product 1 -->
+                <div class="col-md-3">
+                    <div class="card mb-4 product-wap rounded-0">
+                        <div class="card rounded-0 position-relative">
+                            <a href="#">
+                                <img class="card-img rounded-0 img-fluid" src="~/img/Rolex Yacht-Master.jpg" alt="Rolex Yacht-Master 42" style="width: 100%; height: 300px; object-fit: cover;" />
+                            </a>
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="fas fa-cart-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body" style="height: 100px; overflow: hidden;">
+                            <a href="#" class="h3 text-decoration-none">Rolex Yacht-Master 42</a>
+                            <p class="mb-0 text-danger text-start">$14,500</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- New Product 2 -->
+                <div class="col-md-3">
+                    <div class="card mb-4 product-wap rounded-0">
+                        <div class="card rounded-0 position-relative">
+                            <a href="#">
+                                <img class="card-img rounded-0 img-fluid" src="~/img/Omega_Speedmaster_Moonwatch.jpg" alt="Omega Globemaster" style="width: 100%; height: 300px; object-fit: cover;" />
+                            </a>
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="fas fa-cart-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body" style="height: 100px; overflow: hidden;">
+                            <a href="#" class="h3 text-decoration-none">Omega Globemaster</a>
+                            <p class="mb-0 text-danger text-start">$8,000</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- New Product 3 -->
+                <div class="col-md-3">
+                    <div class="card mb-4 product-wap rounded-0">
+                        <div class="card rounded-0 position-relative">
+                            <a href="#">
+                                <img class="card-img rounded-0 img-fluid" src="~/img/AP_Royal_Oak_Offshore.jpg" alt="Audemars Piguet Royal Oak Offshore" style="width: 100%; height: 300px; object-fit: cover;" />
+                            </a>
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="fas fa-cart-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body" style="height: 100px; overflow: hidden;">
+                            <a href="#" class="h3 text-decoration-none">AP Royal Oak Offshore</a>
+                            <p class="mb-0 text-danger text-start">$75,000</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- New Product 4 -->
+                <div class="col-md-3">
+                    <div class="card mb-4 product-wap rounded-0">
+                        <div class="card rounded-0 position-relative">
+                            <a href="#">
+                                <img class="card-img rounded-0 img-fluid" src="~/img/Patek_Golden_Ellipse.jpg" alt="Patek Philippe Golden Ellipse" style="width: 100%; height: 300px; object-fit: cover;" />
+                            </a>
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="fas fa-cart-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body" style="height: 100px; overflow: hidden;">
+                            <a href="#" class="h3 text-decoration-none">Patek Golden Ellipse</a>
+                            <p class="mb-0 text-danger text-start">$40,000</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- New Product 5 -->
+                <div class="col-md-3">
+                    <div class="card mb-4 product-wap rounded-0">
+                        <div class="card rounded-0 position-relative">
+                            <a href="#">
+                                <img class="card-img rounded-0 img-fluid" src="~/img/Rolex_Datejust.jpg" alt="Rolex Datejust 41" style="width: 100%; height: 300px; object-fit: cover;" />
+                            </a>
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="fas fa-cart-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body" style="height: 100px; overflow: hidden;">
+                            <a href="#" class="h3 text-decoration-none">Rolex Datejust 41</a>
+                            <p class="mb-0 text-danger text-start">$12,000</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- New Product 6 -->
+                <div class="col-md-3">
+                    <div class="card mb-4 product-wap rounded-0">
+                        <div class="card rounded-0 position-relative">
+                            <a href="#">
+                                <img class="card-img rounded-0 img-fluid" src="~/img/Omega_Seamaster_Aqua_Terra.jpg" alt="Omega Seamaster Planet Ocean" style="width: 100%; height: 300px; object-fit: cover;" />
+                            </a>
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="fas fa-cart-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body" style="height: 100px; overflow: hidden;">
+                            <a href="#" class="h3 text-decoration-none">Omega Seamaster Planet Ocean</a>
+                            <p class="mb-0 text-danger text-start">$9,000</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- New Product 7 -->
+                <div class="col-md-3">
+                    <div class="card mb-4 product-wap rounded-0">
+                        <div class="card rounded-0 position-relative">
+                            <a href="#">
+                                <img class="card-img rounded-0 img-fluid" src="~/img/AP_Millenary.jpg" alt="Audemars Piguet Millenary" style="width: 100%; height: 300px; object-fit: cover;" />
+                            </a>
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="fas fa-cart-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body" style="height: 100px; overflow: hidden;">
+                            <a href="#" class="h3 text-decoration-none">AP Millenary</a>
+                            <p class="mb-0 text-danger text-start">$55,000</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- New Product 8 -->
+                <div class="col-md-3">
+                    <div class="card mb-4 product-wap rounded-0">
+                        <div class="card rounded-0 position-relative">
+                            <a href="#">
+                                <img class="card-img rounded-0 img-fluid" src="~/img/Patek_Calatrava.jpg" alt="Patek Philippe Calatrava" style="width: 100%; height: 300px; object-fit: cover;" />
+                            </a>
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="far fa-eye"></i></a></li>
+                                    <li><a class="btn btn-success text-white mt-2" href="#"><i class="fas fa-cart-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body" style="height: 100px; overflow: hidden;">
+                            <a href="#" class="h3 text-decoration-none">Patek Philippe Calatrava</a>
+                            <p class="mb-0 text-danger text-start">$30,000</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Start Brands -->
+    <section class="bg-light" >
+        <div class="container" ">
+            <div class="row text-center"">
+                <div class="col-lg-6 m-auto">
+                    <h1 class="h1" style="margin-top: 2rem;">Thương Hiệu</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-9 m-auto tempaltemo-carousel">
+                    <div class="row d-flex flex-row">
+                        <!--Carousel Wrapper-->
+                        <div class="col">
+                            <div class="carousel slide carousel-multi-item pt-2 pt-md-0" id="multi-item-example" data-bs-ride="carousel">
+                                <!--Slides-->
+                                <div class="carousel-inner product-links-wap" role="listbox">
+                                    <div class="carousel-item active">
+                                        <div class="row">
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" src="~/img/logoap.png" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" src="~/img/logoomega.png" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" src="~/img/logopatek.png" alt="Brand Logo"></a>
+                                            </div>
+                                            <div class="col-3 p-md-5">
+                                                <a href="#"><img class="img-fluid brand-img" src="~/img/Logorolex.png" alt="Brand Logo"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--End Slides-->
+                            </div>
+                        </div>
+                        <!--End Carousel Wrapper-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--End Brands-->
+    <div class="container-fluid py-5">
+        <div class="p-5 bg-light rounded">
+            <div class="row g-4">
+                <!-- Contact Information (Left) -->
+                <div class="col-lg-5">
+                    <div class="d-flex p-4 rounded mb-4 bg-white">
+                        <i class="fas fa-map-marker-alt fa-2x text-primary me-4"></i>
+                        <div>
+                            <h4>Address:</h4>
+                            <p class="mb-2">108/31 Trần Quang Diệu, An Thới, Bình Thủy, Cần Thơ</p>
+                        </div>
+                    </div>
+                    <div class="d-flex p-4 rounded mb-4 bg-white">
+                        <i class="fas fa-envelope fa-2x text-primary me-4"></i>
+                        <div>
+                            <h4>Email:</h4>
+                            <p class="mb-2">nnthicntt2211029@student.ctuet.edu.vn</p>
+                            <p class="mb-2">hmphap2211063@student.ctuet.edu.vn</p>
+                            <p class="mb-2">tdthinh2211032@student.ctuet.edu.vn</p>
+                            <p class="mb-2">cthnhan2211042@student.ctuet.edu.vn</p>
+                        </div>
+                    </div>
+                    <div class="d-flex p-4 rounded bg-white">
+                        <i class="fa fa-phone-alt fa-2x text-primary me-4"></i>
+                        <div>
+                            <h4>Phone:</h4>
+                            <p class="mb-2">0344134726</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Map (Right) -->
+                <div class="col-lg-7">
+                    <div class="h-100 rounded">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d718.5721647711316!2d105.75347007297997!3d10.05393879757631!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1svi!2s!4v1746155914798!5m2!1svi!2s"
+                                width="100%"
+                                height="400"
+                                style="border:0;"
+                                allowfullscreen=""
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/jquery-1.11.0.min.js"></script>
+    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/templatemo.js"></script>
+    <script src="assets/js/custom.js"></script>
+</body>
+</html>

@@ -63,7 +63,8 @@ namespace Htime.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login");
+            return Redirect("/Customer/Account/Login");
+
         }
     }
 }
