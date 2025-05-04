@@ -1,11 +1,13 @@
 ﻿using Htime.Data;
 using Htime.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Htime.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class QuanlySPController : Controller
     {
         private readonly ApplicationDBContext _context;
@@ -118,8 +120,6 @@ namespace Htime.Areas.Admin.Controllers
                 return Json(new { success = false, message = ex.Message });
             }
         }
-
-
 
 
         [HttpGet]
