@@ -165,12 +165,14 @@
                     const data = await res.json();
 
 
-                    if (data.success) {
+                    if (data.requireLogin) {
+                        window.location.href = '/Customer/Account/Login'; // hoặc đường dẫn phù hợp với project của bạn
+                    } else if (data.success) {
                         alert("🛒 " + data.message);
-                        // TODO: update số lượng hiển thị nếu cần
                     } else {
                         alert("❌ " + data.message);
                     }
+
                 } catch (err) {
                     console.error(err);
                     alert("⚠️ Đã xảy ra lỗi khi thêm vào giỏ hàng.");

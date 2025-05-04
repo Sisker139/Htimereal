@@ -78,7 +78,11 @@ namespace Htime.Areas.Customer.Controllers
         public async Task<IActionResult> AddToCart([FromBody] AddToCartRequest request)
         {
             var userId = GetUserId();
-            if (userId == null) return RedirectToAction("Login", "Account");
+            if (userId == null)
+            {
+                return Json(new { success = false, requireLogin = true, message = "Vui lòng đăng nhập để thêm vào giỏ hàng." });
+            }
+
             //if (userId == null) return Unauthorized();
 
             var product = await _context.Products.FindAsync(request.ProductId);
