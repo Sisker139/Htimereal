@@ -43,8 +43,21 @@
                     <a class="navbar-sm-brand text-light text-decoration-none" href="tel:0344134726">0344134726</a>
                 </div>
                 <div>
-                    <a class="text-light" href="https://www.facebook.com/minhfap0809" target="_blank" rel="sponsored"><i class="fab fa-facebook-f fa-sm fa-fw me-2"></i></a>
-                   
+                    @if (User.Identity.IsAuthenticated)
+
+                    {
+
+                        if (User.IsInRole("Admin"))
+
+                        {
+                            <a class="text-light" asp-area="Admin" asp-controller="QuanlySP" asp-action="Index">
+                                <i class="fas fa-user-shield fa-sm fa-fw me-2"></i>
+                            </a>
+                        }
+
+                    }
+
+                    
                 </div>
             </div>
         </div>
