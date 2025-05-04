@@ -13,22 +13,6 @@
 <nav class="navbar navbar-dark bg-dark px-3" style="height: 70px;">
     <div class="container-fluid d-flex justify-content-between align-items-center">
         <span class="navbar-brand mb-0 h1">Trang Admin</span>
-
-        <div class="top-link d-flex align-items-center">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <span class="text-white me-2">Welcome @Context.User.Identity.Name,</span>
-                    <a asp-controller="Account" asp-action="Logout" class="text-white text-decoration-none">
-                        <small>Logout</small>
-                    </a>
-                }
-                else
-                {
-                    <a class="nav-icon position-relative text-decoration-none text-white" asp-controller="Account" asp-action="Login">
-                        <i class="fa fa-fw fa-user me-2"></i> Login
-                    </a>
-                }
-        </div>
     </div>
 </nav>
 
