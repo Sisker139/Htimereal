@@ -1,10 +1,12 @@
 ﻿using Htime.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Htime.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class QuanlyDHController : Controller
     {
         private readonly ApplicationDBContext _context;
@@ -18,6 +20,7 @@ namespace Htime.Areas.Admin.Controllers
         {
             var orders = await _context.Orders
                 .Include(o => o.OrderDetails)
+                .OrderByDescending(o => o.OrderDate)
                 .ToListAsync();
 
             return View(orders); // TRUYỀN MODEL vào view
@@ -40,7 +43,7 @@ namespace Htime.Areas.Admin.Controllers
             order.Status = "Confirmed";
 
             await _context.SaveChangesAsync();
-            return Ok(new { success = true, message = "Order confirmed and stock updated." });
+            return Json(new { success = true, message = "Order confirmed and stock updated." });
         }
 
 

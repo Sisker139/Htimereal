@@ -31,6 +31,7 @@ namespace Htime.Areas.Customer.Controllers
             var orders = await _context.Orders
                 .Where(o => o.UserId == userId)
                 .Include(o => o.OrderDetails)
+                .OrderByDescending(o => o.OrderDate)
                 .ToListAsync();
 
             var result = orders.Select(o => new OrderViewModel
