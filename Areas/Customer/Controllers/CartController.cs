@@ -83,17 +83,23 @@ namespace Htime.Areas.Customer.Controllers
 
             var product = await _context.Products.FindAsync(request.ProductId);
             if (product == null) return NotFound();
-
-            if (request.SelectedQuantity > product.StockQuantity)
+            var existingCart = await _context.Carts
+                            .FirstOrDefaultAsync(c => c.UserId == userId && c.ProductId == request.ProductId);
+            if (product.StockQuantity == 0)
+            {
+                return Json(new { success = false, message = "Hết hàng" });
+            }
+            else if (request.SelectedQuantity > product.StockQuantity)
                 return Json(new { success = false, message = "Số lượng vượt quá tồn kho!" });
 
-            var existingCart = await _context.Carts
-                .FirstOrDefaultAsync(c => c.UserId == userId && c.ProductId == request.ProductId);
-
-            if (existingCart != null)
+            else if (existingCart != null)
             {
                 return Json(new { success = false, message = "Sản phẩm đã có trong giỏ hàng." });
             }
+
+            
+
+            
 
             var cartItem = new Cart
             {
@@ -163,6 +169,19 @@ namespace Htime.Areas.Customer.Controllers
                     Quantity = c.SelectedQuantity
                 }).ToList()
             };
+
+            foreach (var item in order.OrderDetails)
+            {
+                var product = await _context.Products.FindAsync(item.ProductId);
+                if (product == null) continue;
+
+                if (product.StockQuantity < item.Quantity)
+                {
+                    return BadRequest($"Not enough stock for product: {product.Name}");
+                }
+
+                product.StockQuantity -= item.Quantity;
+            }
 
             _context.Orders.Add(order);
             _context.Carts.RemoveRange(cartItems);

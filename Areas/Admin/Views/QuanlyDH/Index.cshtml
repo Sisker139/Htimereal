@@ -21,12 +21,29 @@
                         <strong>Đơn hàng #@order.Id</strong><br />
                         Ngày đặt: @order.OrderDate.ToString("dd/MM/yyyy HH:mm")
                     </div>
-                    <form asp-action="ConfirmOrder" asp-area="Admin" asp-controller="QuanlyDH" method="post">
-                        <input type="hidden" name="orderId" value="@order.Id" />
-
-                        <button type="submit" class="btn btn-success">Xác nhận đơn</button>
-                    </form>
+                    <div>
+                        @if (order.Status == "Pending")
+                        {
+                            <form asp-action="ConfirmOrder" asp-area="Admin" asp-controller="QuanlyDH" method="post" class="d-inline">
+                                <input type="hidden" name="orderId" value="@order.Id" />
+                                <button type="submit" class="btn btn-success">Xác nhận đơn</button>
+                            </form>
+                            <form asp-action="CancelOrder" asp-area="Admin" asp-controller="QuanlyDH" method="post" class="d-inline ms-2">
+                                <input type="hidden" name="orderId" value="@order.Id" />
+                                <button type="submit" class="btn btn-danger">Hủy đơn</button>
+                            </form>
+                        }
+                        else if (order.Status.ToLower() == "confirmed")
+                        {
+                            <span class="badge bg-success">Đã xác nhận</span>
+                        }
+                        else if (order.Status.ToLower() == "cancelled")
+                        {
+                            <span class="badge bg-secondary">Đã hủy</span>
+                        }
+                    </div>
                 </div>
+
                 <div class="card-body">
                     <p><strong>Giao tới:</strong> @order.ShippingAddress</p>
                     <table class="table table-bordered">
@@ -45,9 +62,9 @@
                                 <tr>
                                     <td>@item.Name</td>
                                     <td><img src="~/img/@item.Image" width="50" /></td>
-                                    <td>$@item.Price.ToString("0.00")</td>
+                                    <td>@String.Format("${0:0.00}",item.Price)</td>
                                     <td>@item.Quantity</td>
-                                    <td>$@(item.Price * item.Quantity).ToString("0.00")</td>
+                                    <td>@String.Format("${0:0.00}",item.Price * item.Quantity)</td>
                                 </tr>
                             }
                         </tbody>

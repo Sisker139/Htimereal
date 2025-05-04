@@ -36,22 +36,27 @@ namespace Htime.Areas.Admin.Controllers
             if (order.Status == "Confirmed")
                 return BadRequest("Order already confirmed.");
 
-            foreach (var detail in order.OrderDetails)
-            {
-                var product = await _context.Products.FindAsync(detail.ProductId);
-                if (product == null) continue;
-
-                if (product.StockQuantity < detail.Quantity)
-                {
-                    return BadRequest($"Not enough stock for product: {product.Name}");
-                }
-
-                product.StockQuantity -= detail.Quantity;
-            }
+            
             order.Status = "Confirmed";
 
             await _context.SaveChangesAsync();
             return Ok(new { success = true, message = "Order confirmed and stock updated." });
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> CancelOrder(int orderId)
+        {
+            var order = await _context.Orders.FindAsync(orderId);
+            if (order == null) return NotFound();
+
+            if (order.Status != "Pending")
+                return BadRequest("Không thể hủy đơn đã xác nhận.");
+
+            order.Status = "Cancelled";
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
         }
 
 

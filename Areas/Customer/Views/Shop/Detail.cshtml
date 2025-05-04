@@ -16,7 +16,7 @@
             <div class="col-lg-7 mt-5">
                 <div class="card">
                     <div class="card-body">
-                        <h1 class="h2">@Model.Name</h1>
+                        <h1 class="h2 ">@Model.Name</h1>
                         <p class="h3 py-2">$@Model.Price</p>
 
                         <ul class="list-inline">
@@ -79,10 +79,7 @@
                                     const quantityInput = document.getElementById(`quantity-${productId}`);
                                     const selectedQuantity = parseInt(quantityInput?.value || "1", 10);
 
-                                    if (selectedQuantity > stock) {
-                                        alert("Số lượng vượt quá số lượng còn hàng!");
-                                        return;
-                                    }
+                                    
 
                                     const res = await fetch('/Customer/Cart/AddToCart', {
                                         method: 'POST',

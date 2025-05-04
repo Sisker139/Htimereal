@@ -46,5 +46,21 @@ namespace Htime.Areas.Customer.Controllers
             return View(result);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CancelOrder(int orderId)
+        {
+            var order = await _context.Orders.FindAsync(orderId);
+            if (order == null) return NotFound();
+
+            if (order.Status.ToLower() != "pending")
+                return BadRequest("Chỉ có thể hủy đơn hàng đang chờ xác nhận.");
+
+            order.Status = "cancelled"; // hoặc "canceled" tùy bạn định nghĩa
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+
     }
 }
