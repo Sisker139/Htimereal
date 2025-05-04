@@ -24,15 +24,13 @@
                     <div>
                         @if (order.Status == "Pending")
                         {
-                            <form asp-action="ConfirmOrder" asp-area="Admin" asp-controller="QuanlyDH" method="post" class="d-inline">
-                                <input type="hidden" name="orderId" value="@order.Id" />
-                                <button type="submit" class="btn btn-success">Xác nhận đơn</button>
-                            </form>
+                            <button class="btn btn-success btn-confirm-order" data-order-id="@order.Id">Xác nhận đơn</button>
                             <form asp-action="CancelOrder" asp-area="Admin" asp-controller="QuanlyDH" method="post" class="d-inline ms-2">
                                 <input type="hidden" name="orderId" value="@order.Id" />
                                 <button type="submit" class="btn btn-danger">Hủy đơn</button>
                             </form>
                         }
+
                         else if (order.Status.ToLower() == "confirmed")
                         {
                             <span class="badge bg-success">Đã xác nhận</span>
@@ -77,3 +75,37 @@
         }
     }
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const confirmButtons = document.querySelectorAll(".btn-confirm-order");
+
+        confirmButtons.forEach(button => {
+            button.addEventListener("click", function() {
+                const orderId = parseInt(this.dataset.orderId);
+
+                fetch('/Admin/QuanlyDH/ConfirmOrder', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(orderId)
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            return response.json().then(err => { throw err; });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.message);
+                        // Có thể reload từng phần, nhưng đơn giản là reload cả trang
+                        location.reload();
+                    })
+                    .catch(err => {
+                        console.log("Lỗi: " + (err.message || "Không thể xác nhận đơn hàng."));
+                    });
+            });
+        });
+    });
+</script>
